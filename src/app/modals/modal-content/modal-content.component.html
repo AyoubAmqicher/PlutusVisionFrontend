@@ -1,0 +1,15 @@
+<div class="modal-content custom-modal-content">
+  <div class="modal-header custom-modal-header">
+    <h4 class="modal-title">Validation Error</h4>
+    <button type="button" class="close custom-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body custom-modal-body">
+    <p>{{ message }}</p>
+    <button *ngIf="message.includes('Click here to verify it.')" type="button" class="btn btn-primary" (click)="redirectToVerify()">Verify</button>
+  </div>
+  <div class="modal-footer custom-modal-footer">
+    <button type="button" class="btn btn-primary custom-btn" (click)="activeModal.close('Close click')">OK</button>
+  </div>
+</div>

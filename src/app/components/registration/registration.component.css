@@ -82,3 +82,17 @@
     z-index: 1;
   }
   
+  input[type="password"]::-ms-reveal {
+    display: none;
+}
+
+.custom-link {
+  color: #2c81ff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.custom-link:hover {
+  color: rgb(42 178 255);
+}

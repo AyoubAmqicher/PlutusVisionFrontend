@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UsernameValidatorService } from './username-validator.service';
+import { UsernameValidatorService } from './user.service';
 
 describe('UsernameValidatorService', () => {
   let service: UsernameValidatorService;
