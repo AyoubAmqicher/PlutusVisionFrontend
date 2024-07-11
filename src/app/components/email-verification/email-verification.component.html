@@ -1,0 +1,41 @@
+<div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+    <div class="row w-100 h-100">
+        <!-- Left Column with Logo and Welcome Message -->
+        <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center bg-light text-black shadow-lg p-3">
+            <div class="text-center">
+                <img src="assets/logo.png" alt="Logo" class="mb-3" style="max-width: 80%;">
+                <h1 class="display-4 mb-3" style="font-weight: 800;">Welcome Here You Can <span style="color: #2c81ff;">Verify</span><span style="color: rgb(42 178 255);"> Your Email</span></h1>
+                <p class="lead mb-3">Verify your email to continue access</p>
+            </div>
+        </div>
+
+        <!-- Right Column with Verification Form -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center shadow-lg p-3 position-relative form-background" style="background-color: #2c81ff;">
+            <div class="form-background"></div> <!-- Background overlay -->
+            <div class="form-container w-100 position-relative">
+                <h3 class="mb-3">Email Verification</h3>
+                <form [formGroup]="verifyEmailForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" formControlName="email" class="form-control" placeholder="Enter email" aria-describedby="emailHelp" required>
+                        <div *ngIf="verifyEmailForm.get('email')?.invalid && verifyEmailForm.get('email')?.touched" class="text-danger">
+                            Please enter a valid email address.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="verificationCode">Verification Code</label>
+                        <input type="text" id="verificationCode" formControlName="verificationCode" class="form-control" placeholder="Enter verification code" required>
+                        <div *ngIf="verifyEmailForm.get('verificationCode')?.invalid && verifyEmailForm.get('verificationCode')?.touched" class="text-danger">
+                            Verification code is required.
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" [disabled]="verifyEmailForm.invalid">Verify</button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p>Didn't receive a code? <a href="/resend-code" class="custom-link">Resend Code</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

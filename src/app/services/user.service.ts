@@ -30,4 +30,8 @@ export class UserService {
     const url = `http://localhost:8080/api/users/verify-email-status?email=${email}`;
     return this.http.get<{ status: string }>(url);
   }
+
+  registerUser(user: any): Observable<any> {
+    return this.http.post('http://localhost:8080/api/users/register', user);
+  }
 }

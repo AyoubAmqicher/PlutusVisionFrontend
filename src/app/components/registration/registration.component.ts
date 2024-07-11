@@ -6,6 +6,7 @@ import { NameValidators } from '../../validators/name.validators';
 import { PasswordValidators } from '../../validators/password.validators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalContentComponent } from '../../modals/modal-content/modal-content.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -16,7 +17,8 @@ export class RegistrationComponent {
   signupForm: FormGroup;
   passwordVisible: boolean = false;
 
-  constructor(private fb: FormBuilder, private userService : UserService,private modalService: NgbModal) {
+  constructor(private fb: FormBuilder, private userService : UserService,private modalService: NgbModal,
+    private router: Router) {
     this.signupForm = this.fb.group({
       username: ['', {
         validators: [Validators.required,UsernameValidators.validUsername()],
@@ -27,7 +29,7 @@ export class RegistrationComponent {
       lastName: ['', [Validators.required,NameValidators.validName()]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, PasswordValidators.validPassword()]],
-      role: ['personnel', Validators.required]
+      role: ['CLIENT', Validators.required]
     });
   }
 
@@ -39,15 +41,23 @@ export class RegistrationComponent {
         if (exists) {
           this.userService.checkEmailPendingVerification(email).subscribe(response => {
             if (response.status === 'pending') {
-              this.openModal('Email is pending verification. Click here to verify it.');
+              this.openModal('Email is pending verification. Click below to verify it.',"Pending Verification",'/verify', email)
             } else {
-              this.openModal('Email is already taken. Please use another email or log in.');
+              this.openModal('Email is already taken. Please use another email or log in.',"Validation Error");
               console.log(this.signupForm.value);
             }
           });
         } else {
           // Handle form submission
-          console.log(this.signupForm.value);
+          this.userService.registerUser(this.signupForm.value).subscribe({
+            next: (response) => {
+              console.log('User registered successfully:', response);
+              this.router.navigate(['/verify'], { queryParams: { email: email } });
+            },
+            error: (error) => {
+              console.error('Error registering user:', error);
+            }
+          });
         }
       });    } else {
       // Mark all controls as touched to trigger validation messages
@@ -60,8 +70,11 @@ export class RegistrationComponent {
     input.type = this.passwordVisible ? 'text' : 'password';
   }
 
-  openModal(message: string) {
+  openModal(message: string, title : string, redirectTo: string | null = null, email: string | null = null) {
     const modalRef = this.modalService.open(ModalContentComponent);
     modalRef.componentInstance.message = message;
+    modalRef.componentInstance.title = title;
+    modalRef.componentInstance.redirectTo = redirectTo;
+    modalRef.componentInstance.email = email;
   }
 }

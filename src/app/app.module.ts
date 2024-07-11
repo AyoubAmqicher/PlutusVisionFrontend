@@ -9,12 +9,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './services/user.service';
 import { ModalContentComponent } from './modals/modal-content/modal-content.component';
+import { EmailVerificationComponent } from './components/email-verification/email-verification.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistrationComponent,
-    ModalContentComponent
+    ModalContentComponent,
+    EmailVerificationComponent
   ],
   imports: [
     BrowserModule,

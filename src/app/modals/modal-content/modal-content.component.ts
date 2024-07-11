@@ -9,8 +9,14 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ModalContentComponent {
   @Input() message!: string;
+  @Input() title!: string;
+  @Input() redirectTo: string | null = null;
+  @Input() email: string | null = null;
   constructor(public activeModal: NgbActiveModal) {}
+
   redirectToVerify() {
-    window.location.href = '/verify';  // Adjust the URL to your verification page
+    if (this.redirectTo && this.email) {
+      window.location.href = `${this.redirectTo}?email=${encodeURIComponent(this.email)}`;
+    }
   }
 }
