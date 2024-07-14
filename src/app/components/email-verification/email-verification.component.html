@@ -5,7 +5,7 @@
             <div class="text-center">
                 <img src="assets/logo.png" alt="Logo" class="mb-3" style="max-width: 80%;">
                 <h1 class="display-4 mb-3" style="font-weight: 800;">Welcome Here You Can <span style="color: #2c81ff;">Verify</span><span style="color: rgb(42 178 255);"> Your Email</span></h1>
-                <p class="lead mb-3">Verify your email to continue access</p>
+                <p class="lead mb-3">Please enter the verification code sent to your email</p>
             </div>
         </div>
 
@@ -26,15 +26,16 @@
                         <label for="verificationCode">Verification Code</label>
                         <input type="text" id="verificationCode" formControlName="verificationCode" class="form-control" placeholder="Enter verification code" required>
                         <div *ngIf="verifyEmailForm.get('verificationCode')?.invalid && verifyEmailForm.get('verificationCode')?.touched" class="text-danger">
-                            Verification code is required.
-                        </div>
+                            <div *ngIf="verifyEmailForm.get('verificationCode')?.errors?.['required']">Verification code is required.</div>
+                            <div *ngIf="verifyEmailForm.get('verificationCode')?.errors?.['invalidCode']">Verification code must be exactly 6 digits.</div>
+                          </div>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block" [disabled]="verifyEmailForm.invalid">Verify</button>
                 </form>
 
                 <div class="text-center mt-3">
-                    <p>Didn't receive a code? <a href="/resend-code" class="custom-link">Resend Code</a></p>
-                </div>
+                    <p>Didn't receive a code? <a href="/signUp" class="custom-link">Sign Up</a> or <a href="/sign-in" class="custom-link">Sign In</a></p>
+                  </div>                  
             </div>
         </div>
     </div>

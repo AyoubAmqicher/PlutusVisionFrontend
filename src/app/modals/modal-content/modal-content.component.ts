@@ -1,5 +1,6 @@
 import { Component ,Input} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -12,11 +13,24 @@ export class ModalContentComponent {
   @Input() title!: string;
   @Input() redirectTo: string | null = null;
   @Input() email: string | null = null;
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(public activeModal: NgbActiveModal, private userService : UserService) {}
 
   redirectToVerify() {
     if (this.redirectTo && this.email) {
       window.location.href = `${this.redirectTo}?email=${encodeURIComponent(this.email)}`;
+    }
+  }
+
+  resend(){
+    if(this.email){
+      this.userService.generateVerificationCode(this.email).subscribe(response => {
+        if (response.isGenerated) {
+          console.log('New verification code generated successfully.');
+          this.activeModal.close('Close click');
+        } else {
+          console.error('Failed to generate new verification code.');
+        }
+      });
     }
   }
 }

@@ -7,6 +7,7 @@ import { PasswordValidators } from '../../validators/password.validators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalContentComponent } from '../../modals/modal-content/modal-content.component';
 import { Router } from '@angular/router';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-registration',
@@ -18,7 +19,7 @@ export class RegistrationComponent {
   passwordVisible: boolean = false;
 
   constructor(private fb: FormBuilder, private userService : UserService,private modalService: NgbModal,
-    private router: Router) {
+    private router: Router, private loadingService:LoadingService) {
     this.signupForm = this.fb.group({
       username: ['', {
         validators: [Validators.required,UsernameValidators.validUsername()],

@@ -34,4 +34,19 @@ export class UserService {
   registerUser(user: any): Observable<any> {
     return this.http.post('http://localhost:8080/api/users/register', user);
   }
+
+  checkVerificationCodeExpiry(email: string): Observable<{ isExpired: boolean, message: string }> {
+    const url = `http://localhost:8080/api/users/check-verification-code-expiry?email=${email}`;
+    return this.http.get<{ isExpired: boolean, message: string }>(url);
+  }
+
+  generateVerificationCode(email: string): Observable<{ isGenerated: boolean, message: string }> {
+    const url = `http://localhost:8080/api/users/generate-verification-code?email=${email}`;
+    return this.http.post<{ isGenerated: boolean, message: string }>(url, {});
+  }
+
+  verifyCode(email: string, code: string): Observable<{ isVerified: boolean, message: string }> {
+    const url = `http://localhost:8080/api/users/verify-code?email=${email}&code=${code}`;
+    return this.http.post<{ isVerified: boolean, message: string }>(url, {});
+  }
 }
