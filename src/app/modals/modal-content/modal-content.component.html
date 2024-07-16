@@ -11,6 +11,7 @@
   <div class="modal-footer custom-modal-footer">
     <button *ngIf="message.includes('Click below to verify it.')" type="button" class="btn btn-primary custom-btn" (click)="redirectToVerify()">Verify</button>
     <button *ngIf="message.includes('Verification code has expired.')" type="button" class="btn btn-primary custom-btn" (click)="resend()">Resend</button>
+    <button *ngIf="message.includes('We didn\'t recognize your email address')" type="button" class="btn btn-primary custom-btn" (click)="signIN()">Sign Up</button>
     <button type="button" class="btn btn-primary custom-btn" (click)="activeModal.close('Close click')">OK</button>
   </div>
 </div>

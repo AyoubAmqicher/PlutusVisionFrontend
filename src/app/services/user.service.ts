@@ -49,4 +49,14 @@ export class UserService {
     const url = `http://localhost:8080/api/users/verify-code?email=${email}&code=${code}`;
     return this.http.post<{ isVerified: boolean, message: string }>(url, {});
   }
+
+  checkTokenExpiry(email: string): Observable<{ isValid: boolean, message: string }> {
+    const url = `http://localhost:8080/api/users/verify-reset-token?email=${email}`;
+    return this.http.get<{ isValid: boolean, message: string }>(url);
+  }
+
+  sendEmailToken(email: string): Observable<{  message: string }> {
+    const url = `http://localhost:8080/api/users/password-reset-token?email=${email}`;
+    return this.http.post<{ message: string }>(url, {});
+  }
 }

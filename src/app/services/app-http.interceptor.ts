@@ -12,15 +12,14 @@ export class AppHttpInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.loadingService.showLoadingSpinner();
-    // if (token) {
-    //     request = request.clone({
-    //         setHeaders: {
-    //             Authorization: `Bearer ${token}`
-    //         },
-    //     });
-    // }
-
-    request = request.clone()
+    let token = sessionStorage.getItem("app.token");
+    if (token) {
+        request = request.clone({
+            setHeaders: {
+                Authorization: `Bearer ${token}`
+            },
+        });
+    }
 
     return next.handle(request).pipe(
         tap(evt => {
@@ -37,7 +36,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
 private handleErrorRes(error: HttpErrorResponse): Observable<never> {
     this.loadingService.hideLoadingSpinner();
     if (error.status === 401) {
-        this.router.navigateByUrl("/login", {replaceUrl: true});
+        // this.router.navigateByUrl("/login", {replaceUrl: true});
     }
     return throwError(() => error);
 }

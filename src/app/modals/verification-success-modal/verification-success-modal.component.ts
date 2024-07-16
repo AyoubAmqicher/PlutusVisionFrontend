@@ -13,6 +13,6 @@ export class VerificationSuccessModalComponent {
   constructor(public activeModal: NgbActiveModal) { }
 
   redirectToLogin() {
-    window.location.href = '/login';
+    window.location.href = '/signin';
   }
 }

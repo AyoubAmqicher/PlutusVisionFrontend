@@ -14,6 +14,9 @@ import { VerificationSuccessModalComponent } from './modals/verification-success
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { LoadingService } from './services/loading.service';
 import { AppHttpInterceptor } from './services/app-http.interceptor';
+import { LoginComponent } from './components/login/login.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { AppHttpInterceptor } from './services/app-http.interceptor';
     ModalContentComponent,
     EmailVerificationComponent,
     VerificationSuccessModalComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    LoginComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

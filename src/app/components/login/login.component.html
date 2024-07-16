@@ -1,0 +1,51 @@
+<!-- login.component.html -->
+<div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+    <div class="row w-100 h-100">
+        <!-- Left Column with Logo and Welcome Message -->
+        <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center bg-light text-black shadow-lg p-3">
+            <div class="text-center">
+                <img src="assets/logo.png" alt="Logo" class="mb-3" style="max-width: 80%;">
+                <h1 class="display-4 mb-3" style="font-weight: 800;">Welcome Back</h1>
+                <p class="lead mb-3">Sign in to access your account</p>
+            </div>
+        </div>
+
+        <!-- Right Column with Sign In Form -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center shadow-lg p-3 position-relative form-background" style="background-color: #2c81ff;">
+            <div class="form-background"></div> <!-- Background overlay -->
+            <div class="form-container w-100 position-relative">
+                <h3 class="mb-3">Sign In</h3>
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label for="usernameOrEmail">Username or Email</label>
+                        <input type="text" id="usernameOrEmail" formControlName="usernameOrEmail" class="form-control" placeholder="Enter username or email" required>
+                        <div *ngIf="loginForm.get('usernameOrEmail')?.invalid && loginForm.get('usernameOrEmail')?.touched" class="text-danger">
+                            Username or email is required.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-group">
+                            <input type="password" id="password" formControlName="password" class="form-control" placeholder="Enter password" required [attr.aria-describedby]="'password-help'" #passwordInput>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility(passwordInput)">
+                                    <i class="fa fa-eye" aria-hidden="true" *ngIf="!passwordVisible"></i>
+                                    <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="passwordVisible"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
+                            Password is required.
+                        </div>
+                        <div class="input-group-append"><a href="/forgot-password" class="link" style="text-decoration: none;">did you forget your possword?</a></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid">Sign In</button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p>Don't have an account? <a href="/signUp" class="custom-link">Sign Up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

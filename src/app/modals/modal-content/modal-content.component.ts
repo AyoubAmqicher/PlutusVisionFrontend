@@ -33,4 +33,8 @@ export class ModalContentComponent {
       });
     }
   }
+
+  signIN(){
+    window.location.href = `/signUp`;
+  }
 }
