@@ -8,6 +8,8 @@ import { catchError, map, Observable, of } from 'rxjs';
 })
 export class UserService {
 
+  private baseUrl = 'http://localhost:8080/api/users';
+
   constructor(private http: HttpClient) { }
 
   checkUsername(): AsyncValidatorFn {
@@ -58,5 +60,10 @@ export class UserService {
   sendEmailToken(email: string): Observable<{  message: string }> {
     const url = `http://localhost:8080/api/users/password-reset-token?email=${email}`;
     return this.http.post<{ message: string }>(url, {});
+  }
+
+  changePassword(token: string, newPassword: string): Observable<{ hasChanged: boolean, message: string }> {
+    const body = { token, newPassword };
+    return this.http.post<{ hasChanged: boolean, message: string }>(`${this.baseUrl}/change-password`, body);
   }
 }
