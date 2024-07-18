@@ -1,0 +1,45 @@
+/* app.component.css */
+body, html {
+    height: 100%;
+    margin: 0;
+  }
+
+  .sidebar {
+    transition: transform 0.3s ease;
+  }
+  
+.sidebar-hidden {
+    transform: translateX(-100%);
+}
+  
+  :host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  app-navbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  app-sidebar {
+    position: fixed;
+    top: 56px; /* Adjust based on your navbar height */
+    bottom: 0;
+    width: 250px;
+    z-index: 100;
+    background-color: #f8f9fa; /* Match the sidebar background color */
+  }
+  
+  .content-container {
+    margin-top: 56px; /* Adjust based on your navbar height */
+    margin-left: 250px; /* Adjust based on your sidebar width */
+    padding: 20px;
+    flex-grow: 1;
+    background-color: #f8f9fa; /* Adjust based on your design */
+    overflow-y: auto;
+  }
+  

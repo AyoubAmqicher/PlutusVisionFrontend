@@ -5,13 +5,14 @@ import { EmailVerificationComponent } from './components/email-verification/emai
 import { LoginComponent } from './components/login/login.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { NoAthenticatedGuard } from './guards/noAuthenticatd.guard';
 
 const routes: Routes = [
-  {path : "signUp",component : RegistrationComponent},
-  {path : "verify",component : EmailVerificationComponent},
-  {path : "signin",component : LoginComponent},
-  {path : "forgot-password",component : ForgotPasswordComponent},
-  {path : "reset-password",component : ResetPasswordComponent}
+  {path : "signUp",component : RegistrationComponent,canActivate : [NoAthenticatedGuard]},
+  {path : "verify",component : EmailVerificationComponent,canActivate : [NoAthenticatedGuard]},
+  {path : "signin",component : LoginComponent,canActivate : [NoAthenticatedGuard]},
+  {path : "forgot-password",component : ForgotPasswordComponent,canActivate : [NoAthenticatedGuard]},
+  {path : "reset-password",component : ResetPasswordComponent,canActivate : [NoAthenticatedGuard]}
 ];
 
 @NgModule({

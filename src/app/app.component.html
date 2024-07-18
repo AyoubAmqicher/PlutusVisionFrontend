@@ -1,4 +1,6 @@
 <app-loading-spinner/>
+<app-navbar *ngIf="isLoggedIn"></app-navbar>
+<app-sidebar *ngIf="isLoggedIn" [class.sidebar-hidden]="!isVisible" class="sidebary"></app-sidebar>
 <div class="my-container-fluid">
     <router-outlet></router-outlet>
 </div>

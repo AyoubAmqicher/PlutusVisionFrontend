@@ -44,20 +44,20 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.loginForm.valid) {
       const {  usernameOrEmail,  password} = this.loginForm.value;
-      sessionStorage.removeItem("app.token");
+      localStorage.removeItem("app.token");
       this.authService.login(usernameOrEmail, password)
         .subscribe(response => {
           if (response.token) {
             console.log("I git called")
-                sessionStorage.setItem("app.token", response.token);
+            localStorage.setItem("app.token", response.token);
                 const decodedToken = jwtDecode<CustomJwtPayload>(response.token);
                 const roles = decodedToken.scope
+                localStorage.setItem("app.roles",  roles);
                 const email = decodedToken.email;
-                sessionStorage.setItem("app.roles",  roles);
                 console.log(roles);
                 if(this.authService.isUserInRole("ROLE_USER")) this.openModal("your account has been deactivated.","Deactivated Account");
                 if(this.authService.isUserInRole("ROLE_PRE_USER")) this.openModal('Email is pending verification. Click below to verify it.',"Pending Verification",'/verify',email);
-                // if(this.authService.isUserInRole("ROLE_ADMIN")) this.router.navigateByUrl("/list-agents");
+                if(this.authService.isUserInRole("CLIENT")) this.router.navigateByUrl("");
                 // if(this.authService.isUserInRole("ROLE_USER")) this.router.navigateByUrl("/change-password");
             }else {
               console.log(response.errorMessage);

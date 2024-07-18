@@ -1,0 +1,35 @@
+<!-- sidebar.component.html -->
+<div [class.sidebar-hidden]="!isVisible" class="sidebar bg-light mt-5 shadow-lg">
+  <ul class="nav flex-column py-5">
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="isActive('/dashboard')" href="/dashboard">
+        <i class="fa fa-tachometer"></i> Dashboard
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="isActive('/profile')" href="/profile">
+        <i class="fa fa-user"></i> Profile
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="isActive('/transactions')" href="/transactions">
+        <i class="fa fa-exchange"></i> Transactions
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="isActive('/reports')" href="/reports">
+        <i class="fa fa-bar-chart"></i> Reports
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="isActive('/settings')" href="/settings">
+        <i class="fa fa-cog"></i> Settings
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/logout">
+        <i class="fa fa-sign-out"></i> Logout
+      </a>
+    </li>
+  </ul>
+</div>

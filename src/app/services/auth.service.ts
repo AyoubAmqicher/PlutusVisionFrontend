@@ -27,20 +27,29 @@ export class AuthService {
   }
 
   isUserInRole(roleFromRoute: string) {
-    const roles = sessionStorage.getItem("app.roles");
+    const roles = localStorage.getItem("app.roles");
 
-    if (roles!.includes(",")) {
+    if(roles){
+      if (roles!.includes(",")) {
         if (roles === roleFromRoute) {
             return true;
         }
-    } else {
+      } else {
         const roleArray = roles!.split(",");
         for (let role of roleArray) {
             if (role === roleFromRoute) {
                 return true;
             }
         }
+      }
     }
+    
     return false;
-}
+  }
+
+  logout() {
+    localStorage.removeItem("app.token");
+    localStorage.removeItem("app.roles");
+    window.location.href = `/signin`;
+  }
 }
