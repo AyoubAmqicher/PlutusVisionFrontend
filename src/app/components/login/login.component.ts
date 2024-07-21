@@ -52,12 +52,11 @@ export class LoginComponent {
             localStorage.setItem("app.token", response.token);
                 const decodedToken = jwtDecode<CustomJwtPayload>(response.token);
                 const roles = decodedToken.scope
-                localStorage.setItem("app.roles",  roles);
                 const email = decodedToken.email;
                 console.log(roles);
                 if(this.authService.isUserInRole("ROLE_USER")) this.openModal("your account has been deactivated.","Deactivated Account");
                 if(this.authService.isUserInRole("ROLE_PRE_USER")) this.openModal('Email is pending verification. Click below to verify it.',"Pending Verification",'/verify',email);
-                if(this.authService.isUserInRole("CLIENT")) this.router.navigateByUrl("");
+                if(this.authService.isUserInRole("CLIENT"))     window.location.href = `/transactions`;
                 // if(this.authService.isUserInRole("ROLE_USER")) this.router.navigateByUrl("/change-password");
             }else {
               console.log(response.errorMessage);

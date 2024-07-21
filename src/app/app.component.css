@@ -34,12 +34,26 @@ body, html {
     background-color: #f8f9fa; /* Match the sidebar background color */
   }
   
+  
   .content-container {
-    margin-top: 56px; /* Adjust based on your navbar height */
-    margin-left: 250px; /* Adjust based on your sidebar width */
+    margin-top: 80px; /* Adjust based on your navbar height */
+    margin-left: 260px;
+    margin-right: 10px; /* Adjust based on your sidebar width */
     padding: 20px;
     flex-grow: 1;
     background-color: #f8f9fa; /* Adjust based on your design */
     overflow-y: auto;
   }
   
+  @media (max-width: 992px) {
+    app-sidebar {
+        width: 250;
+        top: 56px; /* Adjust based on your navbar height */
+        height: calc(100% - 56px);
+        position: fixed;
+        z-index: 100;
+    }
+    .content-container {
+        margin-left: 10px; /* No margin when sidebar is hidden on small devices */
+    }
+  }

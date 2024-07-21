@@ -19,6 +19,8 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { TransactionManagementComponent } from './components/transaction-management/transaction-management.component';
+import { TwoDecimalDirective } from './directives/two-decimal.directive';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     ForgotPasswordComponent,
     ResetPasswordComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    TransactionManagementComponent,
+    TwoDecimalDirective
   ],
   imports: [
     BrowserModule,

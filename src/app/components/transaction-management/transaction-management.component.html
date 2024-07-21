@@ -1,0 +1,53 @@
+<div class="container mt-5">
+  <div class="card">
+      <div class="card-header bg-primary text-white">
+          <h3>Save a Transaction</h3>
+      </div>
+      <div class="card-body">
+          <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                  <label for="type">Type</label>
+                  <select id="type" formControlName="type" class="form-control">
+                      <option value="">Select Type</option>
+                      <option value="EXPENSE">Expense</option>
+                      <option value="INCOME">Income</option>
+                  </select>
+                  <div *ngIf="transactionForm.controls['type'].invalid && transactionForm.controls['type'].touched" class="text-danger">
+                      Type is required
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for="amount">Amount</label>
+                  <input type="number" id="amount" formControlName="amount" class="form-control" placeholder="Enter amount" appTwoDecimal>
+                  <div *ngIf="transactionForm.controls['amount'].invalid && transactionForm.controls['amount'].touched" class="text-danger">
+                      Amount is required
+                  </div>
+              </div>
+              <div class="form-group form-check">
+                  <input type="checkbox" id="isStable" formControlName="isStable" class="form-check-input">
+                  <label for="isStable" class="form-check-label">Is Stable</label>
+              </div>
+              <div class="form-group">
+                  <label for="datePrevu">Expected Date</label>
+                  <input type="date" id="datePrevu" formControlName="datePrevu" class="form-control" [min]="minDate">
+                  <div *ngIf="transactionForm.controls['datePrevu'].invalid && transactionForm.controls['datePrevu'].touched" class="text-danger">
+                      Expected Date is required
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for="category">Category</label>
+                  <select id="category" formControlName="category" class="form-control">
+                      <option value="">Select Category</option>
+                      <ng-container *ngFor="let category of categories">
+                          <option [value]="category.id" [title]="category.descriptions">{{ category.name }}</option>
+                      </ng-container>
+                  </select>
+                  <div *ngIf="transactionForm.controls['category'].invalid && transactionForm.controls['category'].touched" class="text-danger">
+                      Category is required
+                  </div>
+              </div>
+              <button type="submit" class="btn btn-primary" [disabled]="transactionForm.invalid">Save Transaction</button>
+          </form>
+      </div>
+  </div>
+</div>

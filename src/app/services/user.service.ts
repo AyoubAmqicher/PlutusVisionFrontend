@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, lastValueFrom, map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -33,8 +33,13 @@ export class UserService {
     return this.http.get<{ status: string }>(url);
   }
 
-  registerUser(user: any): Observable<any> {
-    return this.http.post('http://localhost:8080/api/users/register', user);
+  async registerUser(user: any): Promise<any> {
+    try {
+      const response = await lastValueFrom(this.http.post(`${this.baseUrl}/register`, user));
+      return response;
+    } catch (error) {
+      throw error;
+    }
   }
 
   checkVerificationCodeExpiry(email: string): Observable<{ isExpired: boolean, message: string }> {

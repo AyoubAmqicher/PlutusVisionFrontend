@@ -5,14 +5,19 @@ import { EmailVerificationComponent } from './components/email-verification/emai
 import { LoginComponent } from './components/login/login.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { NoAthenticatedGuard } from './guards/noAuthenticatd.guard';
+import { NoAthenticatedGuard } from './guards/noAuthenticated.guard';
+import { TransactionManagementComponent } from './components/transaction-management/transaction-management.component';
+import { AuthenticationGuard } from './guards/Authentication.guard';
+import { DefaultRouteGuard } from './guards/default-route.guard';
 
 const routes: Routes = [
   {path : "signUp",component : RegistrationComponent,canActivate : [NoAthenticatedGuard]},
   {path : "verify",component : EmailVerificationComponent,canActivate : [NoAthenticatedGuard]},
   {path : "signin",component : LoginComponent,canActivate : [NoAthenticatedGuard]},
   {path : "forgot-password",component : ForgotPasswordComponent,canActivate : [NoAthenticatedGuard]},
-  {path : "reset-password",component : ResetPasswordComponent,canActivate : [NoAthenticatedGuard]}
+  {path : "reset-password",component : ResetPasswordComponent,canActivate : [NoAthenticatedGuard]},
+  { path: 'transactions', component: TransactionManagementComponent, canActivate: [AuthenticationGuard], data: { role : 'CLIENT'} },
+  { path: '', redirectTo: '/signin', pathMatch: 'full'}
 ];
 
 @NgModule({

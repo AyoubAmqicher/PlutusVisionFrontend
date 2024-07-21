@@ -63,9 +63,7 @@
     color: #2c81ff;
   }
   
-  .nav-item + .nav-item {
-    margin-top: 10px;
-  }
+
   
   .nav-link.active {
     background-color: #dfe6e9;

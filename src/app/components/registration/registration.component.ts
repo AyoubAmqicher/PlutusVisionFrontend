@@ -50,15 +50,16 @@ export class RegistrationComponent {
           });
         } else {
           // Handle form submission
-          this.userService.registerUser(this.signupForm.value).subscribe({
-            next: (response) => {
-              console.log('User registered successfully:', response);
+          (async () => {
+            try {
               this.router.navigate(['/verify'], { queryParams: { email: email } });
-            },
-            error: (error) => {
+              const response = await this.userService.registerUser(this.signupForm.value);
+              console.log('User registered successfully:', response);
+            } catch (error) {
               console.error('Error registering user:', error);
             }
-          });
+          })();
+          this.loadingService.hideLoadingSpinner();
         }
       });    } else {
       // Mark all controls as touched to trigger validation messages

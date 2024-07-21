@@ -12,7 +12,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.loadingService.showLoadingSpinner();
-    let token = sessionStorage.getItem("app.token");
+    let token = localStorage.getItem("app.token");
     if (token) {
         request = request.clone({
             setHeaders: {

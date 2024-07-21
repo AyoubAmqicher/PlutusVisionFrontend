@@ -4,6 +4,8 @@ import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalContentComponent } from '../../modals/modal-content/modal-content.component';
+import { lastValueFrom } from 'rxjs';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -14,7 +16,9 @@ export class ForgotPasswordComponent implements OnInit {
   forgotPasswordForm: FormGroup;
   message: string | null = null;
 
-  constructor(private fb: FormBuilder, private userService: UserService,private modalService: NgbModal) {
+  constructor(private fb: FormBuilder, private userService: UserService,private modalService: NgbModal,
+    private loadingService : LoadingService
+  ) {
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
@@ -36,11 +40,20 @@ export class ForgotPasswordComponent implements OnInit {
                 if(response.isValid){
                   this.openModal('Please check your email we already sent you a reset link.',"Already sent");
                 }else{
-                  this.userService.sendEmailToken(email).subscribe(response => {
-                    if(response.message){
+                  // this.userService.sendEmailToken(email).subscribe(response => {
+                  //   if(response.message){
+                  //     this.openModal('Please check the link in your email.',"Reset Link");
+                  //   }
+                  // });
+                  (async () => {
+                    try {
                       this.openModal('Please check the link in your email.',"Reset Link");
+                      const response = await lastValueFrom(this.userService.sendEmailToken(email));
+                    } catch (error) {
+                      console.error('Error registering user:', error);
                     }
-                  })
+                  })();
+                  this.loadingService.hideLoadingSpinner();
                 }
               })
             }

@@ -1,6 +1,8 @@
 import { Component ,Input} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
+import { lastValueFrom } from 'rxjs';
+import { LoadingService } from '../../services/loading.service';
 
 
 @Component({
@@ -13,7 +15,8 @@ export class ModalContentComponent {
   @Input() title!: string;
   @Input() redirectTo: string | null = null;
   @Input() email: string | null = null;
-  constructor(public activeModal: NgbActiveModal, private userService : UserService) {}
+  constructor(public activeModal: NgbActiveModal, private userService : UserService,
+    private loadingService : LoadingService) {}
 
   redirectToVerify() {
     if (this.redirectTo && this.email) {
@@ -23,14 +26,16 @@ export class ModalContentComponent {
 
   resend(){
     if(this.email){
-      this.userService.generateVerificationCode(this.email).subscribe(response => {
-        if (response.isGenerated) {
+      (async () => {
+        try {
+          const response = await lastValueFrom(this.userService.generateVerificationCode(this.email!));
           console.log('New verification code generated successfully.');
-          this.activeModal.close('Close click');
-        } else {
+        } catch (error) {
           console.error('Failed to generate new verification code.');
         }
-      });
+      })();
+      this.activeModal.close('Close click');
+      this.loadingService.hideLoadingSpinner();
     }
   }
 

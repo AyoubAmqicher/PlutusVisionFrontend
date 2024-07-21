@@ -12,4 +12,12 @@ export class SidebarService {
   toggleSidebar(): void {
     this.sidebarVisible.next(!this.sidebarVisible.value);
   }
+
+  hideSidebar(){
+    this.sidebarVisible.next(false);
+  }
+
+  showSidebar(){
+    this.sidebarVisible.next(true);
+  }
 }

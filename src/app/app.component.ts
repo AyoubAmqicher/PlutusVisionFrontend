@@ -22,6 +22,8 @@ export class AppComponent implements OnInit{
       .subscribe(result => {
         if (result.matches) {
           this.sidebarService.toggleSidebar();
+        }else{
+          this.sidebarService.showSidebar()
         }
       });
 
