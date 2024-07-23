@@ -28,9 +28,9 @@
                   <label for="isStable" class="form-check-label">Is Stable</label>
               </div>
               <div class="form-group">
-                  <label for="datePrevu">Expected Date</label>
-                  <input type="date" id="datePrevu" formControlName="datePrevu" class="form-control" [min]="minDate">
-                  <div *ngIf="transactionForm.controls['datePrevu'].invalid && transactionForm.controls['datePrevu'].touched" class="text-danger">
+                  <label for="date">Expected Date</label>
+                  <input type="date" id="date" formControlName="date" class="form-control" [min]="minDate">
+                  <div *ngIf="transactionForm.controls['date'].invalid && transactionForm.controls['date'].touched" class="text-danger">
                       Expected Date is required
                   </div>
               </div>
@@ -49,5 +49,69 @@
               <button type="submit" class="btn btn-primary" [disabled]="transactionForm.invalid">Save Transaction</button>
           </form>
       </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h3>Monthly Transaction</h3>
+    </div>
+    <div class="card-body">
+      <!-- Search Input -->
+      <div class="mb-3">
+        <input type="text" [(ngModel)]="search" placeholder="Search transactions" class="form-control" (input)="onSearchChange()">
+      </div>
+
+      <div class="mt-3">
+        <p class="lead">Here you can view the stable transactions. The table below lists transactions generated for each month.</p>
+
+        <!-- Transactions Table -->
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Type</th>
+              <th>Category</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let transaction of paginatedTransactions">
+              <td>{{ transaction.date | date: 'yyyy-MM-dd' }}</td>
+              <td>{{ transaction.amount | currency: 'USD' }}</td>
+              <td>{{ transaction.type }}</td>
+              <td>{{ transaction.category.name }}</td>
+              <td>
+                <button class="btn btn-warning btn-sm" (click)="editTransaction(transaction)">Modify</button>
+                <button class="btn btn-danger btn-sm ms-2" (click)="deleteTransaction(transaction.id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Pagination Controls -->
+        <nav *ngIf="totalPages > 1">
+          <ul class="pagination">
+            <li class="page-item" [ngClass]="{'disabled': currentPage === 0}">
+              <a class="page-link" (click)="changePage(0)">First</a>
+            </li>
+            <li class="page-item" [ngClass]="{'disabled': currentPage === 0}">
+              <a class="page-link" (click)="changePage(currentPage - 1)">Previous</a>
+            </li>
+            <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [ngClass]="{'active': i === currentPage}">
+              <a class="page-link" (click)="changePage(i)">{{ i + 1 }}</a>
+            </li>
+            <li class="page-item" [ngClass]="{'disabled': currentPage === totalPages - 1}">
+              <a class="page-link" (click)="changePage(currentPage + 1)">Next</a>
+            </li>
+            <li class="page-item" [ngClass]="{'disabled': currentPage === totalPages - 1}">
+              <a class="page-link" (click)="changePage(totalPages - 1)">Last</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
   </div>
 </div>

@@ -21,4 +21,19 @@ export class ClientService {
     const url = `${this.baseUrl}/${id}/balance`;
     return this.http.get<{balance : number}> (url);
   }
+
+  getPotentialBalance(id: string, futureDate: string): Observable<{potentialBalance: number}> {
+    const url = `${this.baseUrl}/${id}/potential-balance?futureDate=${futureDate}`;
+    return this.http.get<{potentialBalance: number}>(url);
+  }
+
+  saveTransaction(transactionDTO: any): Observable<void> {
+    const url = `${this.baseUrl}/transactions/save`;
+    return this.http.post<void>(url, transactionDTO);
+  }
+
+  getStableTransactions(id: string): Observable<any[]> {
+    const url = `${this.baseUrl}/${id}/stable-transactions`;
+    return this.http.get<any[]>(url);
+  }
 }
