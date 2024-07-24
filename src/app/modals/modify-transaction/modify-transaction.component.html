@@ -1,0 +1,48 @@
+<div class="modal-content custom-modal-content">
+    <div class="modal-header custom-modal-header">
+      <h4 class="modal-title">Modify Transaction</h4>
+      <button type="button" class="close custom-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body custom-modal-body">
+      <form [formGroup]="modifyTransactionForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="type">Type</label>
+          <select id="type" formControlName="type" class="form-control">
+            <option value="">Select Type</option>
+            <option value="EXPENSE">Expense</option>
+            <option value="INCOME">Income</option>
+          </select>
+          <div *ngIf="modifyTransactionForm.controls['type'].invalid && modifyTransactionForm.controls['type'].touched" class="text-danger">
+            Type is required
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input type="number" id="amount" formControlName="amount" class="form-control" placeholder="Enter amount" appTwoDecimal>
+          <div *ngIf="modifyTransactionForm.controls['amount'].invalid && modifyTransactionForm.controls['amount'].touched" class="text-danger">
+            Amount is required
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="date">Date</label>
+          <input type="date" id="date" formControlName="date" class="form-control" >
+          <div *ngIf="modifyTransactionForm.controls['date'].invalid && modifyTransactionForm.controls['date'].touched" class="text-danger" >
+            Date is required
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="categoryId">Category</label>
+          <select id="categoryId" formControlName="categoryId" class="form-control">
+            <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+          </select>
+          <div *ngIf="modifyTransactionForm.controls['categoryId'].invalid && modifyTransactionForm.controls['categoryId'].touched" class="text-danger">
+            Category is required
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary custom-btn" [disabled]="modifyTransactionForm.invalid">Save</button>
+      </form>
+    </div>
+  </div>
+  

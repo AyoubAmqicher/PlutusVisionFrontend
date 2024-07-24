@@ -21,6 +21,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { TransactionManagementComponent } from './components/transaction-management/transaction-management.component';
 import { TwoDecimalDirective } from './directives/two-decimal.directive';
+import { ModifyTransactionComponent } from './modals/modify-transaction/modify-transaction.component';
+import { BalanceComponent } from './components/balance/balance.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { TwoDecimalDirective } from './directives/two-decimal.directive';
     NavbarComponent,
     SidebarComponent,
     TransactionManagementComponent,
-    TwoDecimalDirective
+    TwoDecimalDirective,
+    ModifyTransactionComponent,
+    BalanceComponent
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,7 @@ import { NoAthenticatedGuard } from './guards/noAuthenticated.guard';
 import { TransactionManagementComponent } from './components/transaction-management/transaction-management.component';
 import { AuthenticationGuard } from './guards/Authentication.guard';
 import { DefaultRouteGuard } from './guards/default-route.guard';
+import { BalanceComponent } from './components/balance/balance.component';
 
 const routes: Routes = [
   {path : "signUp",component : RegistrationComponent,canActivate : [NoAthenticatedGuard]},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path : "forgot-password",component : ForgotPasswordComponent,canActivate : [NoAthenticatedGuard]},
   {path : "reset-password",component : ResetPasswordComponent,canActivate : [NoAthenticatedGuard]},
   { path: 'transactions', component: TransactionManagementComponent, canActivate: [AuthenticationGuard], data: { role : 'CLIENT'} },
+  { path: 'balance', component: BalanceComponent, canActivate: [AuthenticationGuard], data: { role : 'CLIENT'} },
   { path: '', redirectTo: '/signin', pathMatch: 'full'}
 ];
 

@@ -14,7 +14,7 @@
     <div class="d-flex ms-auto align-items-center">
       <ul class="navbar-nav flex-row">
         <li class="nav-item me-3">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="balance">
             <i class="fa fa-wallet"></i> ${{ userSolde }}
           </a>
         </li>
@@ -32,7 +32,7 @@
             <div class="block px-4 py-2 text-gray-700 dark:text-white">
               {{ userName }}
             </div>
-            <a (click)="logout()" class="block px-4 py-2 mt-2 text-red-600 font-semibold hover:bg-red-100 dark:text-red-400 dark:hover:bg-gray-700">Logout</a>
+            <a (click)="logout()" style="cursor: pointer;" class="block px-4 py-2 mt-2 text-red-600 font-semibold hover:bg-red-100 dark:text-red-400 dark:hover:bg-gray-700">Logout</a>
           </div>  
         </li>
       </ul>

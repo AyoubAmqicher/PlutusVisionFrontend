@@ -1,0 +1,74 @@
+
+  
+  .card {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-header {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .text-danger {
+    font-size: 0.875rem;
+  }
+  
+  /* Custom styles for the modal */
+.custom-modal-content {
+    border-radius: 8px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .custom-modal-header {
+    background-color: #6a11cb; /* Same gradient as your background */
+    color: white;
+    border-bottom: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .custom-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    transition: color 0.3s ease;
+  }
+  
+  .custom-close:hover {
+    color: #ff6b6b;
+  }
+  
+  .custom-modal-body {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  .custom-modal-footer {
+    background-color: #f8f9fa;
+    border-top: none;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .custom-btn {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    border: none;
+    color: white;
+    transition: background 0.3s ease;
+  }
+  
+  .custom-btn:hover {
+    background: linear-gradient(to right, #2575fc, #6a11cb);
+  }
+  

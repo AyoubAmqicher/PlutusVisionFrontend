@@ -5,6 +5,7 @@ import { ClientService } from '../../services/client.service';
 import { AuthService } from '../../services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalContentComponent } from '../../modals/modal-content/modal-content.component';
+import { ModifyTransactionComponent } from '../../modals/modify-transaction/modify-transaction.component';
 
 @Component({
   selector: 'app-transaction-management',
@@ -22,40 +23,47 @@ export class TransactionManagementComponent implements OnInit {
   itemsPerPage: number = 5; // Number of items per page
   paginatedTransactions: any[] = [];
   totalPages: number = 0;
-
-
+  currentTransactionId!: number | null;
 
   constructor(private fb: FormBuilder, private categoryService: CategoryService
     , private clientService : ClientService, private authService : AuthService,
     private modalService: NgbModal) {}
 
-  ngOnInit(): void {
-    this.transactionForm = this.fb.group({
-      type: ['', Validators.required],
-      amount: ['', [Validators.required, Validators.min(0.01), Validators.pattern(/^\d*\.?\d{0,2}$/)]],
-      isStable: [false],
-      date: ['', Validators.required],
-      category: ['', Validators.required]
-    });
-
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    const day = today.getDate();
-    const formattedMonth = month < 10 ? '0' + month : month;
-    const formattedDay = day < 10 ? '0' + day : day;
-    this.minDate = `${today.getFullYear()}-${formattedMonth}-${formattedDay}`;
-
-    // Load categories based on default type (if any)
-    this.loadCategories(this.transactionForm.get('type')!.value);
-    
-    // Subscribe to type changes to load the correct categories
-    this.transactionForm.get('type')!.valueChanges.subscribe((type) => {
-      this.loadCategories(type);
-    });
-
-    this.id = this.authService.getUserId();
-    this.loadStableTransactions();
-  }
+    ngOnInit(): void {
+      this.initializeForms();
+      this.setMinDate();
+      this.loadInitialData();
+    }
+  
+    initializeForms(): void {
+      this.transactionForm = this.fb.group({
+        type: ['', Validators.required],
+        amount: ['', [Validators.required, Validators.min(0.01), Validators.pattern(/^\d*\.?\d{0,2}$/)]],
+        isStable: [false],
+        date: ['', Validators.required],
+        category: ['', Validators.required]
+      });
+    }
+  
+    setMinDate(): void {
+      const today = new Date();
+      const month = today.getMonth() + 1;
+      const day = today.getDate();
+      const formattedMonth = month < 10 ? '0' + month : month;
+      const formattedDay = day < 10 ? '0' + day : day;
+      this.minDate = `${today.getFullYear()}-${formattedMonth}-${formattedDay}`;
+    }
+  
+    loadInitialData(): void {
+      this.loadCategories(this.transactionForm.get('type')!.value);
+      this.transactionForm.get('type')!.valueChanges.subscribe((type) => {
+        this.loadCategories(type);
+      });
+  
+      this.id = this.authService.getUserId();
+      this.loadStableTransactions();
+    }
+  
 
   loadCategories(type: 'EXPENSE' | 'INCOME') {
     if (type) {
@@ -94,9 +102,9 @@ export class TransactionManagementComponent implements OnInit {
             if(response.potentialBalance < amount){
               if (confirm('in the selected day your potentiel balance may not cover this transaction. Do you want to proceed?')) {
                 this.saveTransaction()
-              }else{
-                this.saveTransaction()
               }
+            }else{
+              this.saveTransaction()
             }
           });
         }else{
@@ -121,9 +129,12 @@ export class TransactionManagementComponent implements OnInit {
           console.log('Transaction saved successfully');
           // Show success notification or perform other actions
           this.openModal('Transaction saved successfully', 'Success');
+          this.transactionForm.reset();
         }
       );
     }
+
+    this.loadStableTransactions();
   }
 
   openModal(message: string, title : string, redirectTo: string | null = null, email: string | null = null) {
@@ -135,11 +146,51 @@ export class TransactionManagementComponent implements OnInit {
   }
 
   editTransaction(transaction: any) {
-    // Implement edit logic
+    this.currentTransactionId = transaction.id;
+    const modalRef = this.modalService.open(ModifyTransactionComponent);
+    modalRef.componentInstance.transaction = transaction;
+
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          this.updateTransaction(result);
+        }
+      },
+      (reason) => {
+        console.log(`Dismissed: ${reason}`);
+      }
+    );
+  }
+
+  updateTransaction(modifiedTransaction: any) {
+    if (this.id && this.currentTransactionId) {
+      const transactionDTO = {
+        ...modifiedTransaction,
+        userId: this.id,
+        id: this.currentTransactionId
+      };
+      
+      console.log(transactionDTO)
+      this.clientService.updateStableTransaction(transactionDTO.id,transactionDTO).subscribe(
+        response => {
+          console.log('Transaction updated successfully');
+          this.openModal('Transaction updated successfully', 'Success');
+          this.loadStableTransactions();
+        }
+      );
+    }
   }
 
   deleteTransaction(transactionId: number) {
-    
+    if(confirm('Are sure you want to proceed?')){
+      this.clientService.deleteTransaction(transactionId).subscribe(
+        response => {
+          console.log('Transaction deleted successfully');
+          this.openModal('TTransaction deleted successfully', 'Success');
+          this.loadStableTransactions();
+        }
+      );
+    }
   }
 
   loadStableTransactions() {
