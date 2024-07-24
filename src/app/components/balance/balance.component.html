@@ -15,11 +15,11 @@
         <div class="card custom-card shadow-sm">
           <div class="card-body">
             <h5 class="card-title">Potential Balance</h5>
-            <p class="card-text display-4">{{ (currentBalance$ | async)?.balance | currency }}</p>
+            <p class="card-text display-4">{{ (currentPotentialBalance$ | async)?.currentPotentialBalance | currency }}</p>
           </div>
         </div>
       </div>
-  
+      
       <!-- Potential Balance Calculation -->
       <div class="col-md-12 mb-3">
         <div class="card custom-card shadow-sm">

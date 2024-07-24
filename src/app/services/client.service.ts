@@ -46,4 +46,9 @@ export class ClientService {
     const url = `${this.baseUrl}/transactions/${transactionId}`;
     return this.http.delete<void>(url);
   }
+
+  getCurrentPotentialBalance(id: string): Observable<{ currentPotentialBalance: number }> {
+    const url = `${this.baseUrl}/${id}/current-potential-balance`;
+    return this.http.get<{ currentPotentialBalance: number }>(url);
+  }
 }
