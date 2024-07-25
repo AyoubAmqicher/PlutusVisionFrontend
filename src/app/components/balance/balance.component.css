@@ -39,3 +39,64 @@
     background-color: #e9ecef;
   }
   
+  .custom-card {
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  .table th, .table td {
+    vertical-align: middle;
+  }
+  .pagination {
+    justify-content: center;
+  }
+
+  /* Add these new styles */
+.pointer {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.pointer:hover {
+  transform: scale(1.05);
+}
+
+/* Add these new styles */
+.pointer {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.pointer:hover {
+  transform: scale(1.05);
+}
+
+.position-relative {
+  position: relative;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.end-0 {
+  right: 0;
+}
+
+.m-2 {
+  margin: 0.5rem;
+}
+
+i.fas.fa-edit {
+  cursor: pointer;
+  color: #007bff; /* Change this color as needed */
+}
+
+i.fas.fa-edit:hover {
+  color: #0056b3; /* Darker color on hover */
+}
+
+  

@@ -37,6 +37,11 @@ export class ClientService {
     return this.http.get<any[]>(url);
   }
 
+  getConfirmedTransactions(id: string): Observable<any[]> {
+    const url = `${this.baseUrl}/${id}/confirmed-transactions`;
+    return this.http.get<any[]>(url);
+  }
+
   updateStableTransaction(id: number, transactionDTO: any): Observable<void> {
     const url = `${this.baseUrl}/stable/transactions/${id}`;
     return this.http.put<void>(url, transactionDTO);
