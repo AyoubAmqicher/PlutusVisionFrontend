@@ -27,40 +27,44 @@
             <form [formGroup]="balanceForm" (ngSubmit)="onModifyBalance()">
               <div class="mb-3">
                 <label for="newBalance" class="form-label">New Balance</label>
-                <input type="number" id="newBalance" formControlName="newBalance" class="form-control">
+                <input type="number" id="newBalance" formControlName="newBalance" class="form-control" appTwoDecimal>
               </div>
-              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="balanceForm.invalid">Save changes</button>
             </form>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Potential Balance -->
-    <div class="col-md-6 mb-3">
+     <!-- Potential Balance -->
+     <div class="col-md-6 mb-3">
       <div class="card custom-card shadow-sm pointer">
         <div class="card-body">
           <h5 class="card-title">Potential Balance</h5>
-          <p class="card-text display-4">{{ (currentPotentialBalance$ | async)?.currentPotentialBalance | currency }}</p>
+          <p *ngIf="(currentPotentialBalance$ | async) as potentialBalance" class="card-text display-4" [ngClass]="{'text-danger': potentialBalance.currentPotentialBalance < 0}">
+            {{ potentialBalance.currentPotentialBalance | currency }}
+          </p>
         </div>
       </div>
     </div>
-
+    
     <!-- Potential Balance Calculation -->
     <div class="col-md-12 mb-3">
       <div class="card custom-card shadow-sm">
         <div class="card-body">
           <h5 class="card-title">Calculate Future Balance</h5>
-          <form [formGroup]="balanceForm" (ngSubmit)="onCalculatePotentialBalance()">
+          <form [formGroup]="dateForm" (ngSubmit)="onCalculatePotentialBalance()">
             <div class="form-group">
               <label for="futureDate">Future Date</label>
-              <input type="date" id="futureDate" formControlName="futureDate" class="form-control">
+              <input type="date" id="futureDate" formControlName="futureDate" class="form-control" [min]="minDate">
             </div>
-            <button type="submit" class="btn btn-primary mt-3" [disabled]="balanceForm.invalid">Calculate</button>
+            <button type="submit" class="btn btn-primary mt-3" [disabled]="dateForm.invalid">Calculate</button>
           </form>
-          <p class="mt-3" *ngIf="potentialBalance$ | async">
-            Potential Balance on {{ balanceForm.get('futureDate')?.value | date }}: 
-            <strong>{{ (potentialBalance$ | async)?.potentialBalance | currency }}</strong>
+          <p class="mt-3" *ngIf="(potentialBalance$ | async) as futureBalance">
+            Potential Balance on {{ dateForm.get('futureDate')?.value | date }}: 
+            <strong [ngClass]="{'text-danger': futureBalance.potentialBalance < 0}">
+              {{ futureBalance.potentialBalance | currency }}
+            </strong>
           </p>
         </div>
       </div>

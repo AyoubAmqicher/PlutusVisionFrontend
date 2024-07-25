@@ -25,16 +25,22 @@
           </a>
         </li>
         <li class="nav-item dropdown">
-          <a (click)="toggleDropdown()" class="nav-link dropdown-toggle"  id="userDropdown" role="button"  aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-user"></i> {{ userName }}
+          <a (click)="toggleDropdown()" class="nav-link dropdown-toggle" id="userDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user"></i> {{ fullName }}
           </a>
           <div *ngIf="dropdownOpen" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50 dark:bg-gray-800 dark:border-gray-700">
             <div class="block px-4 py-2 text-gray-700 dark:text-white">
               {{ userName }}
             </div>
-            <a (click)="logout()" style="cursor: pointer;" class="block px-4 py-2 mt-2 text-red-600 font-semibold hover:bg-red-100 dark:text-red-400 dark:hover:bg-gray-700">Logout</a>
+            <a (click)="goToAccount()" class="block px-4 py-2 mt-2 text-gray-700 font-semibold hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" style="cursor: pointer;">
+              <i class="fa fa-cog"></i> Account
+            </a>
+            <a (click)="logout()" class="block px-4 py-2 mt-2 text-red-600 font-semibold hover:bg-red-100 dark:text-red-400 dark:hover:bg-gray-700" style="cursor: pointer;">
+              <i class="fa fa-sign-out"></i> Logout
+            </a>
           </div>  
         </li>
+        
       </ul>
     </div>
   </div>

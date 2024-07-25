@@ -99,4 +99,6 @@ i.fas.fa-edit:hover {
   color: #0056b3; /* Darker color on hover */
 }
 
-  
+.text-danger {
+  color: rgb(182, 3, 3) !important;
+}

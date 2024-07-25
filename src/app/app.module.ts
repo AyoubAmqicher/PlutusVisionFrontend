@@ -23,6 +23,7 @@ import { TransactionManagementComponent } from './components/transaction-managem
 import { TwoDecimalDirective } from './directives/two-decimal.directive';
 import { ModifyTransactionComponent } from './modals/modify-transaction/modify-transaction.component';
 import { BalanceComponent } from './components/balance/balance.component';
+import { AccountComponent } from './components/account/account.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { BalanceComponent } from './components/balance/balance.component';
     TransactionManagementComponent,
     TwoDecimalDirective,
     ModifyTransactionComponent,
-    BalanceComponent
+    BalanceComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,

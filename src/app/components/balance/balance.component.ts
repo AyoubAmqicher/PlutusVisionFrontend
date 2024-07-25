@@ -17,14 +17,20 @@ export class BalanceComponent implements OnInit {
   paginatedTransactions: any[] = [];
   id!: string | null;
   balanceForm: FormGroup;
+  dateForm: FormGroup;
   pageSize: number = 5;
   currentPage: number = 1;
   totalTransactions: number = 0;
   sortDirection: string = 'desc';
+  minDate!: string;
 
   constructor(private clientService: ClientService, private fb: FormBuilder, private authService: AuthService) {
-    this.balanceForm = this.fb.group({
+    this.dateForm = this.fb.group({
       futureDate: ['',[Validators.required]]
+    });
+
+    this.balanceForm = this.fb.group({
+      newBalance: ['',[Validators.required]]
     });
   }
 
@@ -32,6 +38,7 @@ export class BalanceComponent implements OnInit {
     this.id = this.authService.getUserId();
     this.fetchCurrentBalance();
     this.fetchHistoricalTransactions();
+    this.setMinDate();
   }
 
   fetchCurrentBalance(): void {
@@ -53,13 +60,22 @@ export class BalanceComponent implements OnInit {
 
   fetchPotentialBalance(): void {
     if (this.id) {
-      const futureDate = this.balanceForm.get('futureDate')?.value;
+      const futureDate = this.dateForm.get('futureDate')?.value;
       this.potentialBalance$ = this.clientService.getPotentialBalance(this.id, futureDate);
     }
   }
 
   onCalculatePotentialBalance(): void {
     this.fetchPotentialBalance();
+  }
+
+  setMinDate(): void {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const day = today.getDate();
+    const formattedMonth = month < 10 ? '0' + month : month;
+    const formattedDay = day < 10 ? '0' + day : day;
+    this.minDate = `${today.getFullYear()}-${formattedMonth}-${formattedDay}`;
   }
 
   paginateTransactions(): void {
@@ -85,11 +101,12 @@ export class BalanceComponent implements OnInit {
   }
 
   onModifyBalance(): void {
-    // const newBalance = this.balanceForm.get('newBalance')?.value;
-    // Call your service method to update the balance here
-    // Example:
-    // this.clientService.updateBalance(this.id, newBalance).subscribe(() => {
-    //   this.fetchCurrentBalance();
-    // });
+    if(this.id){
+      const newBalance = this.balanceForm.get('newBalance')?.value;
+      this.clientService.updateBalance(this.id, newBalance).subscribe(() => {
+        this.fetchCurrentBalance();
+        this.fetchPotentialBalance();
+      });
+    }
   }
 }

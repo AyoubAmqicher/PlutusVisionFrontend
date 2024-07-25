@@ -17,6 +17,11 @@ export class ClientService {
     return this.http.get<{fullName : string}> (url);
   }
 
+  getUsername(id: string): Observable<{username : string}> {
+    const url = `${this.baseUrl}/${id}/username`;
+    return this.http.get<{username : string}> (url);
+  }
+
   getBalnce(id: string): Observable<{balance : number}> {
     const url = `${this.baseUrl}/${id}/balance`;
     return this.http.get<{balance : number}> (url);
@@ -55,5 +60,10 @@ export class ClientService {
   getCurrentPotentialBalance(id: string): Observable<{ currentPotentialBalance: number }> {
     const url = `${this.baseUrl}/${id}/current-potential-balance`;
     return this.http.get<{ currentPotentialBalance: number }>(url);
+  }
+
+  updateBalance(userId: string, newBalance: number): Observable<void> {
+    const url = `${this.baseUrl}/${userId}/balance`;
+    return this.http.put<void>(url, { balance: newBalance });
   }
 }
