@@ -1,25 +1,119 @@
 <div class="container mt-5">
-    <div class="card shadow-lg">
-      <div class="card-body">
-        <h5 class="card-title">Account Information</h5>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <strong>Username:</strong> {{ user?.username }}
-          </li>
-          <li class="list-group-item">
-            <strong>First Name:</strong> {{ user?.firstName }}
-          </li>
-          <li class="list-group-item">
-            <strong>Last Name:</strong> {{ user?.lastName }}
-          </li>
-          <li class="list-group-item">
-            <strong>Email:</strong> {{ user?.email }}
-          </li>
-          <li class="list-group-item">
-            <strong>Role:</strong> {{ user?.role }}
-          </li>
-        </ul>
+  <div class="card shadow-lg border-0">
+    <div class="card-body">
+      <h5 class="card-title text-primary mb-4">Account Information</h5>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+          <div>
+            <strong>Username: </strong> 
+            <span *ngIf="!editingUsername">{{ user?.username }}</span>
+            <input *ngIf="editingUsername" [(ngModel)]="editUsername" class="form-control" />
+          </div>
+          <i class="fa fa-edit text-primary cursor-pointer" (click)="toggleEdit('username')"></i>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+          <div>
+            <strong>First Name: </strong> 
+            <span *ngIf="!editingFirstName">{{ user?.firstName }}</span>
+            <input *ngIf="editingFirstName" [(ngModel)]="editFirstName" class="form-control" />
+          </div>
+          <i class="fa fa-edit text-primary cursor-pointer" (click)="toggleEdit('firstName')"></i>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+          <div>
+            <strong>Last Name: </strong> 
+            <span *ngIf="!editingLastName">{{ user?.lastName }}</span>
+            <input *ngIf="editingLastName" [(ngModel)]="editLastName" class="form-control" />
+          </div>
+          <i class="fa fa-edit text-primary cursor-pointer" (click)="toggleEdit('lastName')"></i>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+          <div>
+            <strong>Email: </strong> 
+            <span *ngIf="!editingEmail">{{ user?.email }}</span>
+          </div>
+          <i class="fa fa-edit text-primary cursor-pointer" (click)="toggleEdit('email')"></i>
+        </li>
+        <li class="list-group-item border-0">
+          <strong>Role:</strong> {{ user?.role }}
+        </li>
+        <li class="list-group-item border-0">
+          <strong>Created At:</strong> {{ user?.createdAt | date }}
+        </li>
+        <li class="list-group-item border-0">
+          <strong>Updated At:</strong> {{ user?.updatedAt | date }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Change Email Modal -->
+  <div *ngIf="editingEmail" class="modal show fade" style="display: block;" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary">Change Email</h5>
+          <button type="button" class="close" aria-label="Close" (click)="toggleEdit('email')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input [(ngModel)]="editEmail" class="form-control" placeholder="Enter new email" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="toggleEdit('email')">Close</button>
+          <button type="button" class="btn btn-primary" (click)="confirmEmailChange()">Save changes</button>
+        </div>
       </div>
     </div>
   </div>
-  
+
+  <!-- Confirm Email Modal -->
+  <div *ngIf="confirmingEmailChange" class="modal show fade" style="display: block;" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary">Confirm Email Change</h5>
+          <button type="button" class="close" aria-label="Close" (click)="confirmingEmailChange = false">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input [(ngModel)]="confirmationCode" class="form-control" placeholder="Enter confirmation code" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="confirmingEmailChange = false">Close</button>
+          <button type="button" class="btn btn-primary" (click)="finalizeEmailChange()">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change Password Section -->
+  <div class="card mt-5 shadow-lg border-0">
+    <div class="card-body">
+      <h5 class="card-title text-primary mb-4">Change Password</h5>
+      <form (ngSubmit)="changePassword()">
+        <div class="form-group">
+          <label for="currentPassword">Current Password</label>
+          <input type="password" id="currentPassword" [(ngModel)]="currentPassword" name="currentPassword" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="newPassword">New Password</label>
+          <input type="password" id="newPassword" [(ngModel)]="newPassword" name="newPassword" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm New Password</label>
+          <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Change Password</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cursor-pointer {
+    cursor: pointer;
+  }
+</style>

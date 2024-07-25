@@ -71,4 +71,8 @@ export class UserService {
     const body = { token, newPassword };
     return this.http.post<{ hasChanged: boolean, message: string }>(`${this.baseUrl}/change-password`, body);
   }
+
+  getUserById(id: string): Observable<any> {
+    return this.http.get(`http://localhost:8080/api/authenticated/user/${id}`);
+  }
 }
