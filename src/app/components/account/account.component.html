@@ -1,115 +1,139 @@
 <div class="container mt-5">
-  <div class="card shadow-lg border-0">
-    <div class="card-body">
-      <h5 class="card-title text-primary mb-4">Account Information</h5>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item d-flex justify-content-between align-items-center border-0">
-          <div>
-            <strong>Username: </strong> 
-            <span *ngIf="!editingUsername">{{ user?.username }}</span>
-            <input *ngIf="editingUsername" [(ngModel)]="editUsername" class="form-control" />
-          </div>
-          <i class="fa fa-edit text-primary cursor-pointer" (click)="toggleEdit('username')"></i>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center border-0">
-          <div>
-            <strong>First Name: </strong> 
-            <span *ngIf="!editingFirstName">{{ user?.firstName }}</span>
-            <input *ngIf="editingFirstName" [(ngModel)]="editFirstName" class="form-control" />
-          </div>
-          <i class="fa fa-edit text-primary cursor-pointer" (click)="toggleEdit('firstName')"></i>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center border-0">
-          <div>
-            <strong>Last Name: </strong> 
-            <span *ngIf="!editingLastName">{{ user?.lastName }}</span>
-            <input *ngIf="editingLastName" [(ngModel)]="editLastName" class="form-control" />
-          </div>
-          <i class="fa fa-edit text-primary cursor-pointer" (click)="toggleEdit('lastName')"></i>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center border-0">
-          <div>
-            <strong>Email: </strong> 
-            <span *ngIf="!editingEmail">{{ user?.email }}</span>
-          </div>
-          <i class="fa fa-edit text-primary cursor-pointer" (click)="toggleEdit('email')"></i>
-        </li>
-        <li class="list-group-item border-0">
-          <strong>Role:</strong> {{ user?.role }}
-        </li>
-        <li class="list-group-item border-0">
-          <strong>Created At:</strong> {{ user?.createdAt | date }}
-        </li>
-        <li class="list-group-item border-0">
-          <strong>Updated At:</strong> {{ user?.updatedAt | date }}
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Change Email Modal -->
-  <div *ngIf="editingEmail" class="modal show fade" style="display: block;" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-primary">Change Email</h5>
-          <button type="button" class="close" aria-label="Close" (click)="toggleEdit('email')">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <input [(ngModel)]="editEmail" class="form-control" placeholder="Enter new email" />
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="toggleEdit('email')">Close</button>
-          <button type="button" class="btn btn-primary" (click)="confirmEmailChange()">Save changes</button>
-        </div>
+  <form [formGroup]="accountForm">
+    <div class="card shadow-lg border-0">
+      <div class="card-body">
+        <h5 class="card-title text-primary mb-4">Account Information</h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+            <div>
+              <strong>Username: </strong> 
+              <span *ngIf="!editingUsername">{{ user?.username }}</span>
+              <input *ngIf="editingUsername" formControlName="username" class="form-control" />
+              <div *ngIf="accountForm.get('username')?.invalid && accountForm.get('username')?.touched" class="text-danger">
+                <div *ngIf="accountForm.get('username')?.errors?.['required']">Username is required.</div>
+                <div *ngIf="accountForm.get('username')?.errors?.['usernameTaken']">Username is already taken.</div>
+                <div *ngIf="accountForm.get('username')?.errors?.['invalidCharacters']">Usernames can only contain alphabetic characters, numeric characters, and underscores.</div>
+                <div *ngIf="accountForm.get('username')?.errors?.['startsWithDigit']">The first character in a username cannot be a digit.</div>
+                <div *ngIf="accountForm.get('username')?.errors?.['invalidLength']">Username must be between 6 and 30 characters long.</div>
+            </div>
+            </div>
+            <i *ngIf="!editingUsername" class="fa fa-edit text-primary cursor-pointer ml-2" (click)="toggleEdit('username')"></i>
+            <i *ngIf="editingUsername" class="fa fa-save text-primary cursor-pointer ml-2" (click)="saveEdit('username')"></i>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+            <div>
+              <strong>First Name: </strong> 
+              <span *ngIf="!editingFirstName">{{ user?.firstName }}</span>
+              <input *ngIf="editingFirstName" formControlName="firstName" class="form-control" />
+              <div *ngIf="accountForm.get('firstName')?.invalid && accountForm.get('firstName')?.touched" class="text-danger">
+                <div *ngIf="accountForm.get('firstName')?.errors?.['required']">First name is required.</div>
+                <div *ngIf="accountForm.get('firstName')?.errors?.['invalidCharacters']">First name can only contain alphabetic characters, spaces, and hyphens.</div>
+                <div *ngIf="accountForm.get('firstName')?.errors?.['invalidLength']">First name must be between 2 and 50 characters long.</div>
+              </div>
+            </div>
+            <i *ngIf="!editingFirstName" class="fa fa-edit text-primary cursor-pointer ml-2" (click)="toggleEdit('firstName')"></i>
+            <i *ngIf="editingFirstName" class="fa fa-save text-primary cursor-pointer ml-2" (click)="saveEdit('firstName')"></i>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+            <div>
+              <strong>Last Name: </strong> 
+              <span *ngIf="!editingLastName">{{ user?.lastName }}</span>
+              <input *ngIf="editingLastName" formControlName="lastName" class="form-control" />
+              <div *ngIf="accountForm.get('lastName')?.invalid && accountForm.get('lastName')?.touched" class="text-danger">
+                <div *ngIf="accountForm.get('lastName')?.errors?.['required']">Last name is required.</div>
+                <div *ngIf="accountForm.get('lastName')?.errors?.['invalidCharacters']">Last name can only contain alphabetic characters, spaces, and hyphens.</div>
+                <div *ngIf="accountForm.get('lastName')?.errors?.['invalidLength']">Last name must be between 2 and 50 characters long.</div>
+            </div>
+            </div>
+            <i *ngIf="!editingLastName" class="fa fa-edit text-primary cursor-pointer ml-2" (click)="toggleEdit('lastName')"></i>
+            <i *ngIf="editingLastName" class="fa fa-save text-primary cursor-pointer ml-2" (click)="saveEdit('lastName')"></i>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+            <div>
+              <strong>Email: </strong> 
+              <span *ngIf="!editingEmail">{{ user?.email }}</span>
+            </div>
+            <i class="fa fa-edit text-primary cursor-pointer" (click)="toggleEdit('email')"></i>
+          </li>
+          <li class="list-group-item border-0">
+            <strong>Role:</strong> {{ user?.role }}
+          </li>
+          <li class="list-group-item border-0">
+            <strong>Created At:</strong> {{ user?.createdAt | date }}
+          </li>
+          <li class="list-group-item border-0">
+            <strong>Updated At:</strong> {{ user?.updatedAt | date }}
+          </li>
+        </ul>
       </div>
     </div>
-  </div>
+  </form>
 
-  <!-- Confirm Email Modal -->
-  <div *ngIf="confirmingEmailChange" class="modal show fade" style="display: block;" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-primary">Confirm Email Change</h5>
-          <button type="button" class="close" aria-label="Close" (click)="confirmingEmailChange = false">
-            <span aria-hidden="true">&times;</span>
-          </button>
+
+<!-- Change Email Modal -->
+<div *ngIf="editingEmail" class="modal show fade" style="display: block;" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form [formGroup]="editForm">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary">Change Email</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="toggleEdit('email')"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-warning" role="alert">
+          Once you submit, you will not be able to log in until you confirm your new email address.
         </div>
-        <div class="modal-body">
-          <input [(ngModel)]="confirmationCode" class="form-control" placeholder="Enter confirmation code" />
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="confirmingEmailChange = false">Close</button>
-          <button type="button" class="btn btn-primary" (click)="finalizeEmailChange()">Confirm</button>
+        <div class="mb-3">
+          <label for="newEmail" class="form-label">New Email</label>
+          <input id="newEmail" formControlName="email" type="email" class="form-control" placeholder="Enter new email" />
+          <div *ngIf="editForm.get('email')?.invalid && editForm.get('email')?.touched" class="text-danger">
+            Please enter a valid email address.
+          </div>
         </div>
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="toggleEdit('email')">Close</button>
+        <button type="button" class="btn btn-primary" (click)="confirmEmailChange()">Save changes</button>
+      </div>
+      </form>
     </div>
   </div>
+</div>
+
+
+ 
 
   <!-- Change Password Section -->
   <div class="card mt-5 shadow-lg border-0">
     <div class="card-body">
       <h5 class="card-title text-primary mb-4">Change Password</h5>
-      <form (ngSubmit)="changePassword()">
+      <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
         <div class="form-group">
           <label for="currentPassword">Current Password</label>
-          <input type="password" id="currentPassword" [(ngModel)]="currentPassword" name="currentPassword" class="form-control" />
+          <input type="password" id="currentPassword" formControlName="currentPassword" class="form-control" />
+          <div *ngIf="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched" class="text-danger">
+            Current password is required.
+          </div>
         </div>
         <div class="form-group">
           <label for="newPassword">New Password</label>
-          <input type="password" id="newPassword" [(ngModel)]="newPassword" name="newPassword" class="form-control" />
+          <input type="password" id="newPassword" formControlName="newPassword" class="form-control" />
+          <div *ngIf="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched" class="text-danger">
+            New password is required and must meet the requirements.
+          </div>
         </div>
         <div class="form-group">
           <label for="confirmPassword">Confirm New Password</label>
-          <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" class="form-control" />
+          <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control" />
+          <div *ngIf="passwordForm.get('confirmPassword')?.invalid && passwordForm.get('confirmPassword')?.touched" class="text-danger">
+            Confirm password is required and must match the new password.
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary">Change Password</button>
+        <button type="submit" class="btn btn-primary" [disabled]="passwordForm.invalid">Change Password</button>
       </form>
     </div>
   </div>
+  
 </div>
 
 <style>

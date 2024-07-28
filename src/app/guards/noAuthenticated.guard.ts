@@ -17,7 +17,6 @@ export class NoAthenticatedGuard {
         return true;
     } else if (role){
         if(role == "ROLE_PRE_USER"){
-            this.router.navigateByUrl("/verify");
             return true;
         }
         if(role == "ROLE_USER") {

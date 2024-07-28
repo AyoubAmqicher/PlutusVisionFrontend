@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export class PasswordValidators {
 
@@ -14,6 +14,18 @@ export class PasswordValidators {
         return { invalidPassword: true };
       }
 
+      return null;
+    };
+  }
+
+  static passwordsMatch(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const formGroup = control as FormGroup;
+      const newPassword = formGroup.get('newPassword')?.value;
+      const confirmPassword = formGroup.get('confirmPassword')?.value;
+      if (newPassword !== confirmPassword) {
+        return { passwordsMismatch: true };
+      }
       return null;
     };
   }

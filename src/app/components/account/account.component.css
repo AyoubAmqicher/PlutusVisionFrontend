@@ -32,3 +32,20 @@
     border: none;
   }
   
+  /* account.component.css */
+.modal-content {
+  border-radius: 8px;
+}
+
+.modal-header {
+  background-color: #f8f9fa;
+}
+
+.modal-footer {
+  background-color: #f8f9fa;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+}

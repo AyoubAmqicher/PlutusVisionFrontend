@@ -105,7 +105,6 @@ export class BalanceComponent implements OnInit {
       const newBalance = this.balanceForm.get('newBalance')?.value;
       this.clientService.updateBalance(this.id, newBalance).subscribe(() => {
         this.fetchCurrentBalance();
-        this.fetchPotentialBalance();
       });
     }
   }

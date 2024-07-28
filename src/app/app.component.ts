@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SidebarService } from './services/sidebar.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { AuthService } from './services/auth.service';
 
 
 @Component({
@@ -14,7 +15,8 @@ export class AppComponent implements OnInit{
   isLoggedIn = false; 
 
   constructor(private sidebarService : SidebarService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private authService : AuthService
   ){}
 
   ngOnInit(): void {
@@ -31,7 +33,10 @@ export class AppComponent implements OnInit{
       this.isVisible = visible;
     });
 
-    if(localStorage.getItem("app.token")){
+    const role = this.authService.getUserRole();
+
+    if(localStorage.getItem("app.token") && role != "ROLE_PRE_USER" && role != "ROLE_USER" ){
+      console.log(role)
       this.isLoggedIn = true;
     }
   }

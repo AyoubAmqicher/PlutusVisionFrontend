@@ -2,15 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { catchError, lastValueFrom, map, Observable, of } from 'rxjs';
+import { ClientService } from './client.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
+  
   private baseUrl = 'http://localhost:8080/api/users';
+  username='';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private clientService : ClientService,private authService : AuthService) { }
 
   checkUsername(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
@@ -20,6 +23,28 @@ export class UserService {
         }),
         catchError(() => of(null))
       );
+    };
+  }
+
+  checkUsernameforAuthenticated(): AsyncValidatorFn {
+    const userId = this.authService.getUserId();
+     this.username = ''
+    if(userId){
+      this.clientService.getUsername(userId).subscribe(response =>{
+        this.username = response.username;
+      })
+    }
+    return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
+      if(this.username != control.value){
+        return this.http.get<{ exists: boolean }>(`http://localhost:8080/api/users/check-username/${control.value}`).pipe(
+          map(res => {
+            return res.exists  ? { usernameTaken: true } : null;
+          }),
+          catchError(() => of(null))
+        );
+      }
+
+      return of(null);
     };
   }
 
@@ -74,5 +99,13 @@ export class UserService {
 
   getUserById(id: string): Observable<any> {
     return this.http.get(`http://localhost:8080/api/authenticated/user/${id}`);
+  }
+
+  updateUser(user: any,id : string): Observable<any> {
+    return this.http.put(`http://localhost:8080/api/authenticated/user/${id}`, user);
+  }
+
+  changeEmail(id: string, newEmail: string): Observable<any> {
+    return this.http.put(`http://localhost:8080/api/authenticated/user/${id}/change-email?newEmail=${newEmail}`, {});
   }
 }
