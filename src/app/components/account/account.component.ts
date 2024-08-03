@@ -10,6 +10,7 @@ import { ModalContentComponent } from '../../modals/modal-content/modal-content.
 import { lastValueFrom } from 'rxjs';
 import { LoadingService } from '../../services/loading.service';
 import { Router } from '@angular/router';
+import { error } from 'jquery';
 
 
 @Component({
@@ -160,10 +161,18 @@ export class AccountComponent implements OnInit {
       const { currentPassword, newPassword } = this.passwordForm.value;
       const userId = this.authService.getUserId();
       if (userId) {
-        // this.userService.changePassword(userId, currentPassword, newPassword).subscribe(
-        //   () => alert('Password changed successfully!'),
-        //   (error) => alert('Failed to change password.')
-        // );
+        this.userService.changePasswordForAuthenticated(userId, currentPassword, newPassword).subscribe({
+          next : value => {
+            if(value.hasChanged){
+              this.openModal(value.message,"Success")
+            }else{
+              this.openModal(value.message,"Failed")
+            }
+          }, 
+          error : err => {
+            alert('password is not valid')
+          }
+        });
       }
     } else {
       this.passwordForm.markAllAsTouched();

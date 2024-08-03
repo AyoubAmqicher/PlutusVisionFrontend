@@ -66,4 +66,9 @@ export class ClientService {
     const url = `${this.baseUrl}/${userId}/balance`;
     return this.http.put<void>(url, { balance: newBalance });
   }
+
+  getBudgets(userId: string): Observable<any[]> {
+    const url = `${this.baseUrl}/${userId}/budgets`;
+    return this.http.get<any[]>(url);
+  }
 }

@@ -103,33 +103,36 @@
 
  
 
-  <!-- Change Password Section -->
-  <div class="card mt-5 shadow-lg border-0">
+   <!-- Change Password Section -->
+   <div class="card mt-5 shadow-lg border-0">
     <div class="card-body">
       <h5 class="card-title text-primary mb-4">Change Password</h5>
       <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
-        <div class="form-group">
-          <label for="currentPassword">Current Password</label>
+        <div class="mb-3">
+          <label for="currentPassword" class="form-label">Current Password</label>
           <input type="password" id="currentPassword" formControlName="currentPassword" class="form-control" />
           <div *ngIf="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched" class="text-danger">
             Current password is required.
           </div>
         </div>
-        <div class="form-group">
-          <label for="newPassword">New Password</label>
+        <div class="mb-3">
+          <label for="newPassword" class="form-label">New Password</label>
           <input type="password" id="newPassword" formControlName="newPassword" class="form-control" />
           <div *ngIf="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched" class="text-danger">
-            New password is required and must meet the requirements.
+            <div *ngIf="passwordForm.get('newPassword')?.errors?.['required']">Password is required.</div>
+            <div *ngIf="passwordForm.get('newPassword')?.errors?.['invalidPassword']">
+                Password must include at least one uppercase letter, one lowercase letter, one digit, one special symbol, and be at least 8 characters long.
+            </div>
           </div>
         </div>
-        <div class="form-group">
-          <label for="confirmPassword">Confirm New Password</label>
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Confirm New Password</label>
           <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control" />
           <div *ngIf="passwordForm.get('confirmPassword')?.invalid && passwordForm.get('confirmPassword')?.touched" class="text-danger">
             Confirm password is required and must match the new password.
           </div>
         </div>
-        <button type="submit" class="btn btn-primary" [disabled]="passwordForm.invalid">Change Password</button>
+        <button type="submit" class="btn btn-primary w-100" [disabled]="passwordForm.invalid">Change Password</button>
       </form>
     </div>
   </div>

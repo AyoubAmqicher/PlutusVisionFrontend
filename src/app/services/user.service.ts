@@ -108,4 +108,10 @@ export class UserService {
   changeEmail(id: string, newEmail: string): Observable<any> {
     return this.http.put(`http://localhost:8080/api/authenticated/user/${id}/change-email?newEmail=${newEmail}`, {});
   }
+
+  changePasswordForAuthenticated(id: string, oldPassword: string, newPassword: string): Observable<{ hasChanged: boolean, message: string }> {
+    const url = `http://localhost:8080/api/authenticated/user/${id}/change-password`;
+    const body = { oldPassword, newPassword };
+    return this.http.put<{ hasChanged: boolean, message: string }>(url, body);
+  }
 }
