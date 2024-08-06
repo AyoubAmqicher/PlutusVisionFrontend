@@ -4,8 +4,8 @@
       <h3>Available Budgets</h3>
     </div>
     <div class="card-body">
-      <div *ngFor="let budget of paginatedBudgets" class="budget-card mb-4 p-3 rounded shadow-sm">
-        <div class="d-flex justify-content-between align-items-center">
+      <div *ngFor="let budget of paginatedBudgets" class="budget-card mb-4 p-3 rounded shadow-sm" (click)="openBudgetDetails(budget, budgetDetailsModal)">
+        <div class="d-flex justify-content-between align-items-center" style="cursor: pointer;">
           <div class="budget-info">
             <h5 class="budget-name">{{ budget.name }}</h5>
             <p class="mb-1 text-muted"><i class="fas fa-calendar-alt"></i> Period: {{ budget.period }}</p>
@@ -34,4 +34,31 @@
       </nav>
     </div>
   </div>
+
+  <!-- Budget Details Modal -->
+<ng-template #budgetDetailsModal let-modal>
+  <div class="modal-header bg-primary text-white">
+    <h5 class="modal-title" id="budgetDetailsModalLabel">Budget Details</h5>
+    <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="mb-3">
+      <p><strong>Expected Finish Date:</strong> {{ calculateExpectedFinishDate(selectedBudget.createdAt, selectedBudget.period) | date }}</p>
+    </div>
+    <h6>Transactions</h6>
+    <div *ngIf="transactions.length === 0" class="alert alert-warning" role="alert">
+      No transactions available.
+    </div>
+    <ul class="list-group" *ngIf="transactions.length > 0">
+      <li *ngFor="let transaction of transactions" class="list-group-item d-flex justify-content-between align-items-center">
+        <span>{{ transaction.date }} - {{ transaction.amount | currency }}</span>
+        <button *ngIf="transaction.status === 'COMING'" class="btn btn-danger btn-sm" (click)="cancelTransaction(transaction.id)">Cancel</button>
+      </li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Close click')">Close</button>
+  </div>
+</ng-template>
+
 </div>

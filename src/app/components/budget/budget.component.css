@@ -40,3 +40,34 @@
     box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075)!important;
   }
   
+.modal-header.bg-primary {
+  background: linear-gradient(45deg, #1b6ca8, #2c81ff);
+}
+
+.modal-header .btn-close {
+  filter: invert(1);
+}
+
+.modal-body {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.list-group-item {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+}
+
+.list-group-item:hover {
+  background-color: #e9ecef;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
