@@ -6,6 +6,10 @@ import { AuthService } from '../../services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalContentComponent } from '../../modals/modal-content/modal-content.component';
 import { ModifyTransactionComponent } from '../../modals/modify-transaction/modify-transaction.component';
+import { BudgetSelectionModalComponent } from '../../modals/budget-selection-modal/budget-selection-modal.component';
+import { BudgetService } from '../../services/budget.service';
+import { transition } from '@angular/animations';
+import { TransactionService } from '../../services/transaction.service';
 
 @Component({
   selector: 'app-transaction-management',
@@ -24,10 +28,15 @@ export class TransactionManagementComponent implements OnInit {
   paginatedTransactions: any[] = [];
   totalPages: number = 0;
   currentTransactionId!: number | null;
+  budgets: any[] = [];
 
-  constructor(private fb: FormBuilder, private categoryService: CategoryService
-    , private clientService : ClientService, private authService : AuthService,
-    private modalService: NgbModal) {}
+  constructor(private fb: FormBuilder, 
+    private categoryService: CategoryService,
+    private clientService : ClientService, 
+    private authService : AuthService,
+    private modalService: NgbModal,
+    private budgetService : BudgetService,
+    private transactionService : TransactionService) {}
 
     ngOnInit(): void {
       this.initializeForms();
@@ -101,7 +110,7 @@ export class TransactionManagementComponent implements OnInit {
           this.clientService.getPotentialBalance(this.id,selectedDate).subscribe(response => {
             if(response.potentialBalance < amount){
               if (confirm('in the selected day your potentiel balance may not cover this transaction. Do you want to proceed?')) {
-                this.saveTransaction()
+                this.saveTransaction();
               }
             }else{
               this.saveTransaction()
@@ -123,18 +132,42 @@ export class TransactionManagementComponent implements OnInit {
         userId: this.id,
         categoryId: this.transactionForm.get('category')!.value
       };
-
-      this.clientService.saveTransaction(transactionDTO).subscribe(
-        response => {
-          console.log('Transaction saved successfully');
-          // Show success notification or perform other actions
-          this.openModal('Transaction saved successfully', 'Success');
-          this.transactionForm.reset();
-        }
-      );
+      this.budgetService.findAvailableBudgets(transactionDTO.amount,transactionDTO.date,
+        transactionDTO.categoryId).subscribe(budgets => {
+          if( budgets.length > 0 && transactionDTO.type == "EXPENSE" && !transactionDTO.isStable){
+            const modalRef = this.modalService.open(BudgetSelectionModalComponent);
+            modalRef.componentInstance.budgets = budgets;
+            modalRef.result.then((selectedBudget) => {
+              // Proceed with the transaction using the selected budget
+              if (selectedBudget > 0) {
+                console.log(selectedBudget)
+                this.transactionService.saveTransaction(transactionDTO,selectedBudget).subscribe(
+                  response => {
+                    this.openModal('Transaction saved successfully', 'Success');
+                    this.transactionForm.reset();
+                  }
+                  );
+              }
+            }, (reason) => {
+              this.saveTransactionDirectly(transactionDTO);
+            });
+          }else{
+            this.saveTransactionDirectly(transactionDTO);
+          } 
+      });           
     }
-
     this.loadStableTransactions();
+  }
+
+  saveTransactionDirectly(transactionDTO : any){
+    this.clientService.saveTransaction(transactionDTO).subscribe(
+      response => {
+        console.log('Transaction saved successfully');
+        // Show success notification or perform other actions
+        this.openModal('Transaction saved successfully', 'Success');
+        this.transactionForm.reset();
+      }
+    );
   }
 
   openModal(message: string, title : string, redirectTo: string | null = null, email: string | null = null) {
@@ -186,7 +219,7 @@ export class TransactionManagementComponent implements OnInit {
       this.clientService.deleteTransaction(transactionId).subscribe(
         response => {
           console.log('Transaction deleted successfully');
-          this.openModal('TTransaction deleted successfully', 'Success');
+          this.openModal('Transaction deleted successfully', 'Success');
           this.loadStableTransactions();
         }
       );

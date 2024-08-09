@@ -19,4 +19,9 @@ export class TransactionService {
   cancelTransaction(transactionId: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${transactionId}`);
   }
+
+  saveTransaction(transactionDTO: any,budgetId : number): Observable<void> {
+    const url = `${this.baseUrl}/save?budgetId=${budgetId}`;
+    return this.http.post<void>(url, transactionDTO);
+  }
 }

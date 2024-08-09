@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h5 class="modal-title">Select a Budget</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <p class="mb-4">You can pay using one of these budgets:</p>
+  <div *ngIf="budgets.length > 0; else noBudgets">
+    <form [formGroup]="budgetForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="budgetSelect" class="form-label">Choose a budget:</label>
+        <select id="budgetSelect" class="form-select" formControlName="selectedBudget">
+          <option *ngFor="let budget of budgets" [value]="budget.id">
+            {{ budget.name }} - {{ budget.totalAmount - budget.allocatedAmount | currency }}
+          </option>
+        </select>
+      </div>
+    </form>
+  </div>
+  <ng-template #noBudgets>
+    <p class="text-danger">No available budgets found.</p>
+  </ng-template>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Use Balance</button>
+  <button type="submit" class="btn btn-primary" [disabled]="!budgetForm.valid" (click)="onSubmit()">Select</button>
+</div>

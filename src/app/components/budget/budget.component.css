@@ -71,3 +71,30 @@
   background-color: #c82333;
   border-color: #bd2130;
 }
+
+.add-budget-btn {
+  background: linear-gradient(45deg, #2c81ff, #1b6ca8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.3s ease;
+  border: none;
+  margin-left: 55%;
+}
+
+@media screen and (min-width: 900px) {
+  .add-budget-btn {
+    margin-left: 73%;
+  }
+}
+
+.add-budget-btn:hover {
+  background: linear-gradient(45deg, #1b6ca8, #0a508d);
+  transform: translateY(-2px);
+}
+
+.add-budget-btn i {
+  margin-right: 8px;
+}

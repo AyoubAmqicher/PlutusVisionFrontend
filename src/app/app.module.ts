@@ -25,6 +25,8 @@ import { ModifyTransactionComponent } from './modals/modify-transaction/modify-t
 import { BalanceComponent } from './components/balance/balance.component';
 import { AccountComponent } from './components/account/account.component';
 import { BudgetComponent } from './components/budget/budget.component';
+import { BudgetSelectionModalComponent } from './modals/budget-selection-modal/budget-selection-modal.component';
+import { AddBudgetModalComponent } from './modals/add-budget-modal/add-budget-modal.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { BudgetComponent } from './components/budget/budget.component';
     ModifyTransactionComponent,
     BalanceComponent,
     AccountComponent,
-    BudgetComponent
+    BudgetComponent,
+    BudgetSelectionModalComponent,
+    AddBudgetModalComponent
   ],
   imports: [
     BrowserModule,
