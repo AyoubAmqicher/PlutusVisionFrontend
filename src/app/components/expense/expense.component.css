@@ -1,0 +1,74 @@
+.container {
+    max-width: 900px;
+  }
+  
+  .card {
+    border: none;
+  }
+  
+  .card-header {
+    background: linear-gradient(45deg, #1b6ca8, #2c81ff);
+    border-bottom: none;
+  }
+  
+  .section-title {
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .income-list-container {
+    max-height: 300px; /* Adjust the height as needed */
+    overflow-y: auto;
+  }
+  
+  .list-group-item {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+  }
+  
+  .list-group-item:hover {
+    background-color: #e9ecef;
+  }
+  
+  .uniform-width {
+    width: 68px; /* Set to desired width */
+  }
+  
+  .btn-group .btn {
+    margin-right: 5px; /* Optional spacing between buttons */
+  }
+  
+  .btn-primary {
+    background-color: #2c81ff;
+    border-color: #2c81ff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #1b6ca8;
+    border-color: #1b6ca8;
+  }
+  
+  .alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+  }
+  
+  .alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+  }
+  
+  .page-link {
+    cursor: pointer;
+  }
+  
+  .page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+  }
+  
+  .uniform-width {
+    min-width: 68px;
+  }
+  

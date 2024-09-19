@@ -1,0 +1,82 @@
+<div class="container mt-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h3>Upcoming Expenses</h3>
+      </div>
+      <div class="card-body">
+        <!-- Expenses Waiting for Confirmation -->
+        <section class="mb-5">
+          <h4 class="section-title text-secondary">Waiting for Confirmation</h4>
+          <div *ngIf="waitingForConfirmationExpenses.length === 0" class="alert alert-warning" role="alert">
+            No incomes waiting for confirmation.
+          </div>
+          <div class="income-list-container" *ngIf="waitingForConfirmationExpenses.length > 0">
+            <ul class="list-group">
+              <li *ngFor="let income of getPaginatedWaitingIncomes()" class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ income.date | date }} - {{ income.amount | currency }} - {{ income.category.name }}</span>
+                <div class="btn-group">
+                  <button class="btn btn-primary btn-sm uniform-width" (click)="confirmIncome(income)">Confirm</button>
+                  <button class="btn btn-danger btn-sm uniform-width" (click)="cancelIncome(income)">Cancel</button>
+                </div>
+              </li>
+            </ul>
+            <nav *ngIf="waitingTotalPages > 1">
+              <ul class="pagination">
+                <li class="page-item" [ngClass]="{'disabled': waitingCurrentPage === 1}">
+                  <a class="page-link" (click)="changeWaitingPage(1)">First</a>
+                </li>
+                <li class="page-item" [ngClass]="{'disabled': waitingCurrentPage === 1}">
+                  <a class="page-link" (click)="changeWaitingPage(waitingCurrentPage - 1)">Previous</a>
+                </li>
+                <li class="page-item" *ngFor="let page of [].constructor(waitingTotalPages); let i = index" [ngClass]="{'active': (i + 1) === waitingCurrentPage}">
+                  <a class="page-link" (click)="changeWaitingPage(i + 1)">{{ i + 1 }}</a>
+                </li>
+                <li class="page-item" [ngClass]="{'disabled': waitingCurrentPage === waitingTotalPages}">
+                  <a class="page-link" (click)="changeWaitingPage(waitingCurrentPage + 1)">Next</a>
+                </li>
+                <li class="page-item" [ngClass]="{'disabled': waitingCurrentPage === waitingTotalPages}">
+                  <a class="page-link" (click)="changeWaitingPage(waitingTotalPages)">Last</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </section>
+  
+        <!-- Other Upcoming Incomes -->
+        <section>
+          <h4 class="section-title text-secondary">Other Upcoming Incomes</h4>
+          <div *ngIf="upcomingIncomes.length === 0" class="alert alert-info" role="alert">
+            No other upcoming incomes.
+          </div>
+          <div class="income-list-container" *ngIf="upcomingIncomes.length > 0">
+            <ul class="list-group">
+              <li *ngFor="let income of getPaginatedUpcomingIncomes()" class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ income.date | date }} - {{ income.amount | currency }} - {{ income.category.name }}</span>
+                <button class="btn btn-danger btn-sm uniform-width" (click)="cancelIncome(income.id)">Cancel</button>
+              </li>
+            </ul>
+            <nav *ngIf="upcomingTotalPages > 1">
+              <ul class="pagination">
+                <li class="page-item" [ngClass]="{'disabled': upcomingCurrentPage === 1}">
+                  <a class="page-link" (click)="changeUpcomingPage(1)">First</a>
+                </li>
+                <li class="page-item" [ngClass]="{'disabled': upcomingCurrentPage === 1}">
+                  <a class="page-link" (click)="changeUpcomingPage(upcomingCurrentPage - 1)">Previous</a>
+                </li>
+                <li class="page-item" *ngFor="let page of [].constructor(upcomingTotalPages); let i = index" [ngClass]="{'active': (i + 1) === upcomingCurrentPage}">
+                  <a class="page-link" (click)="changeUpcomingPage(i + 1)">{{ i + 1 }}</a>
+                </li>
+                <li class="page-item" [ngClass]="{'disabled': upcomingCurrentPage === upcomingTotalPages}">
+                  <a class="page-link" (click)="changeUpcomingPage(upcomingCurrentPage + 1)">Next</a>
+                </li>
+                <li class="page-item" [ngClass]="{'disabled': upcomingCurrentPage === upcomingTotalPages}">
+                  <a class="page-link" (click)="changeUpcomingPage(upcomingTotalPages)">Last</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  

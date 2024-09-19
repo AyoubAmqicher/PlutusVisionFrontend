@@ -25,4 +25,14 @@ export class BudgetService {
     const url = `${this.baseUrl}/save?userId=${userId}`;
     return this.http.post<void>(url, budget);
   }
+
+  deleteBudget(budgetId: number): Observable<void> {
+    const url = `${this.baseUrl}/${budgetId}`;
+    return this.http.delete<void>(url);
+  }
+
+  isBudgetHaveUnconfirmedTransaction(id : number): Observable<{ response: boolean}> {
+    const url = `${this.baseUrl}/is-budget-have-unconfirmed-transaction?id=${id}`;
+    return this.http.get<{ response: boolean}>(url);
+  }
 }

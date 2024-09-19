@@ -27,6 +27,9 @@ import { AccountComponent } from './components/account/account.component';
 import { BudgetComponent } from './components/budget/budget.component';
 import { BudgetSelectionModalComponent } from './modals/budget-selection-modal/budget-selection-modal.component';
 import { AddBudgetModalComponent } from './modals/add-budget-modal/add-budget-modal.component';
+import { IncomeComponent } from './components/income/income.component';
+import { ExpenseComponent } from './components/expense/expense.component';
+import { AdviceListComponent } from './components/advice/advice.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,10 @@ import { AddBudgetModalComponent } from './modals/add-budget-modal/add-budget-mo
     AccountComponent,
     BudgetComponent,
     BudgetSelectionModalComponent,
-    AddBudgetModalComponent
+    AddBudgetModalComponent,
+    IncomeComponent,
+    ExpenseComponent,
+    AdviceListComponent
   ],
   imports: [
     BrowserModule,

@@ -98,3 +98,27 @@
 .add-budget-btn i {
   margin-right: 8px;
 }
+.budget-card {
+  position: relative;
+  padding-right: 40px; /* Adjust as needed to accommodate the menu icon */
+}
+
+.budget-card-header {
+  position: relative;
+}
+
+.budget-options {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.budget-options .btn-link {
+  color: #333; /* Change color as needed */
+}
+
+.budget-options .dropdown-menu {
+  min-width: auto;
+  right: 0;
+  left: auto;
+}

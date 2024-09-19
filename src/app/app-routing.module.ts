@@ -12,6 +12,9 @@ import { DefaultRouteGuard } from './guards/default-route.guard';
 import { BalanceComponent } from './components/balance/balance.component';
 import { AccountComponent } from './components/account/account.component';
 import { BudgetComponent } from './components/budget/budget.component';
+import { IncomeComponent } from './components/income/income.component';
+import { ExpenseComponent } from './components/expense/expense.component';
+import { AdviceListComponent } from './components/advice/advice.component';
 
 const routes: Routes = [
   {path : "signUp",component : RegistrationComponent,canActivate : [NoAthenticatedGuard]},
@@ -23,6 +26,9 @@ const routes: Routes = [
   { path: 'balance', component: BalanceComponent, canActivate: [AuthenticationGuard], data: { role : 'CLIENT'} },
   { path: 'account', component: AccountComponent, canActivate: [AuthenticationGuard], data: { role : 'CLIENT'} },
   { path: 'budget', component: BudgetComponent, canActivate: [AuthenticationGuard], data: { role : 'CLIENT'} },
+  { path: 'income', component: IncomeComponent, canActivate: [AuthenticationGuard], data: { role : 'CLIENT'} },
+  { path: 'expense', component: ExpenseComponent, canActivate: [AuthenticationGuard], data: { role : 'CLIENT'} },
+  { path: 'advice', component: AdviceListComponent, canActivate: [AuthenticationGuard], data: { role : 'CLIENT'} },
   { path: '', redirectTo: '/signin', pathMatch: 'full'}
 ];
 

@@ -1,0 +1,58 @@
+<div class="container mt-4">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h3>Financial Advice Articles</h3>
+      </div>
+      <div class="card-body">
+        <div *ngFor="let advice of financialAdvices" class="advice-card mb-4 p-3 rounded shadow-sm">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="advice-info" (click)="openAdviceDetails(advice, adviceDetailsModal)" style="cursor: pointer;">
+              <h5 class="advice-title">{{ advice.title }}</h5>
+              <p class="mb-1 text-muted">
+                <i class="fas fa-calendar-alt"></i> Last updated: {{ advice.updatedAt | date }}
+              </p>
+              <p class="mb-1 text-muted">
+                <i class="fas fa-tags"></i> Categories: {{ advice.categories.join(', ') }}
+              </p>
+            </div>
+            <div class="advice-preview">
+              <p>{{ advice.content | slice: 0: 100 }}...</p>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Pagination -->
+        <nav aria-label="Page navigation" *ngIf="totalPages > 1">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <a class="page-link" style="cursor: pointer;" (click)="changePage(currentPage - 1)">Previous</a>
+            </li>
+            <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item" [class.active]="currentPage === i + 1">
+              <a class="page-link" style="cursor: pointer;" (click)="changePage(i + 1)">{{ i + 1 }}</a>
+            </li>
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <a class="page-link" style="cursor: pointer;" (click)="changePage(currentPage + 1)">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  
+    <!-- Advice Details Modal -->
+    <ng-template #adviceDetailsModal let-modal>
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Advice Details</h5>
+        <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedAdvice">
+        <h5>{{ selectedAdvice.title }}</h5>
+        <p><strong>Last Updated:</strong> {{ selectedAdvice.updatedAt | date }}</p>
+        <p><strong>Categories:</strong> {{ selectedAdvice.categories.join(', ') }}</p>
+        <p><strong>Content:</strong> {{ selectedAdvice.content }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Close click')">Close</button>
+      </div>
+    </ng-template>
+  </div>
+  

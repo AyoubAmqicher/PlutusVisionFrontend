@@ -19,6 +19,8 @@ export class BudgetComponent implements OnInit {
   paginatedBudgets: any[] = [];
   selectedBudget: any = null;
   transactions: any[] = [];
+  openMenuId: number | null = null;
+
 
   constructor(private clientService: ClientService, 
     private authService: AuthService,
@@ -124,4 +126,30 @@ export class BudgetComponent implements OnInit {
     modalRef.componentInstance.redirectTo = redirectTo;
     modalRef.componentInstance.email = email;
   }
+
+  toggleMenu(budgetId: number): void {
+    this.openMenuId = this.openMenuId === budgetId ? null : budgetId;
+  }
+
+  isMenuOpen(budgetId: number): boolean {
+    return this.openMenuId === budgetId;
+  }
+
+  cancelBudget(budgetId: number): void {
+    console.log(budgetId);
+    this.openMenuId = this.openMenuId === budgetId ? null : budgetId;
+
+    this.budgetService.isBudgetHaveUnconfirmedTransaction(budgetId).subscribe(response => {
+      if(response.response){
+        this.openModal("You can not cancel this budget it has uncofirmed transactions","Error")
+      }else{
+        this.budgetService.deleteBudget(budgetId).subscribe(() => {
+        this.budgets = this.budgets.filter(budget => budget.id !== budgetId);
+        this.updatePaginatedBudgets();
+        this.openModal('Budget cancelled successfully', 'Success');
+        });
+      }
+    })
+  }
+  
 }
